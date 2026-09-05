@@ -1,0 +1,88 @@
+{
+  "graphId": "13f82d86",
+  "deviceManufacturer": "Google",
+  "deviceModel": "Pixel 8",
+  "androidVersion": 34,
+  "nodes": [
+    {
+      "id": "node_root_display",
+      "label": "Display",
+      "subtitle": "Brightness, display size, dark theme",
+      "screenSignature": "sig_root",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Display",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.DISPLAY_SETTINGS",
+      "className": "android.widget.TextView",
+      "isClickable": true,
+      "childIds": [
+        "node_font_size",
+        "node_dark_theme"
+      ]
+    },
+    {
+      "id": "node_root_sound",
+      "label": "Sound & vibration",
+      "subtitle": "Volume, haptics, Do Not Disturb",
+      "screenSignature": "sig_root",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Sound & vibration",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.SOUND_SETTINGS",
+      "className": "android.widget.TextView",
+      "isClickable": true,
+      "childIds": [
+        "node_media_volume",
+        "node_ring_volume"
+      ]
+    },
+    {
+      "id": "node_font_size",
+      "label": "Font size",
+      "subtitle": "Make text larger or smaller",
+      "screenSignature": "sig_display",
+      "parentId": "node_root_display",
+      "selector": {
+        "resourceId": "com.android.settings:id/font_size",
+        "text": "Font size",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.TextView",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_media_volume",
+      "label": "Media volume",
+      "subtitle": null,
+      "screenSignature": "sig_sound",
+      "parentId": "node_root_sound",
+      "selector": {
+        "resourceId": "com.android.settings:id/media_volume",
+        "text": "Media volume",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.SeekBar",
+      "isClickable": true,
+      "childIds": []
+    }
+  ],
+  "createdAt": "2026-09-05T00:00:00Z",
+  "screenSignatures": [
+    "sig_root",
+    "sig_display",
+    "sig_sound"
+  ]
+}

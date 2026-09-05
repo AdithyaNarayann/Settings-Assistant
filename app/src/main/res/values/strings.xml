@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Settings Lens</string>
+    <string name="accessibility_service_description">Settings Lens needs accessibility access to crawl and navigate your device\'s Settings app. This allows it to discover all available settings and automatically navigate to the one you ask for.</string>
+    <string name="crawl_button">Build Settings Graph</string>
+    <string name="rebuild_button">Rebuild Graph</string>
+    <string name="crawl_in_progress">Crawling settings… Please don\'t touch the screen.</string>
+    <string name="crawl_complete">Graph built! %d settings discovered.</string>
+    <string name="crawl_failed">Crawl failed: %s</string>
+    <string name="no_graph">No settings graph yet. Tap \"Build Settings Graph\" to start.</string>
+    <string name="graph_info">%1$d nodes • Last built: %2$s</string>
+    <string name="nav_failed">Navigation failed at step %d: could not find target. Consider rebuilding the graph.</string>
+    <string name="enable_accessibility">Enable Accessibility Service</string>
+    <string name="grant_overlay">Grant Overlay Permission</string>
+    <string name="grant_audio">Grant Microphone Permission</string>
+</resources>

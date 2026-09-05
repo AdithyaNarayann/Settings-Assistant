@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.MainActivity">
+
+    <!-- App title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings Lens"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Describe a setting. We'll find it."
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Service status -->
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/on_surface"
+        android:layout_marginBottom="16dp"
+        tools:text="⚠️ Accessibility Service is not enabled." />
+
+    <!-- Enable Accessibility button (shown when service is not enabled) -->
+    <Button
+        android:id="@+id/enableA11yButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enable_accessibility"
+        android:layout_marginBottom="8dp"
+        style="@style/Widget.Material3.Button.TonalButton" />
+
+    <!-- Crawl button -->
+    <Button
+        android:id="@+id/crawlButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/crawl_button"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Start Floating Bubble button -->
+    <Button
+        android:id="@+id/startBubbleButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Floating Bubble"
+        android:layout_marginBottom="8dp"
+        style="@style/Widget.Material3.Button.OutlinedButton" />
+
+    <!-- Permissions button -->
+    <Button
+        android:id="@+id/permissionsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Permissions &amp; Setup"
+        android:layout_marginBottom="8dp"
+        style="@style/Widget.Material3.Button.TextButton" />
+
+    <!-- Progress bar (visible during crawl) -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:indeterminate="true"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Node count -->
+    <TextView
+        android:id="@+id/nodeCountText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp"
+        tools:text="347 nodes • 42 screens" />
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Discovered Settings"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/on_surface"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Graph node list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/graphRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/item_graph_node" />
+
+</LinearLayout>
