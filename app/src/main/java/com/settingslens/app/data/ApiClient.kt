@@ -16,9 +16,20 @@ import java.util.concurrent.TimeUnit
  */
 object ApiClient {
 
-    // Change this to your laptop's LAN IP for physical device testing
-    // For emulator: "http://10.0.2.2:8000/"
-    private const val BASE_URL = "http://127.0.0.1:8000/"
+    /**
+     * Base URL for the backend server.
+     * With physical device via USB: run `adb reverse tcp:8000 tcp:8000` to forward 127.0.0.1:8000 to your PC.
+     * For emulator: "http://10.0.2.2:8000/"
+     * For Wi-Fi: "http://<YOUR_PC_IP>:8000/"
+     */
+    @Volatile
+    var baseUrl: String = "http://127.0.0.1:8000/"
+        set(value) {
+            field = if (value.endsWith("/")) value else "$value/"
+            synchronized(this) {
+                retrofitInstance = null
+            }
+        }
 
     private val json = Json {
         ignoreUnknownKeys = true
@@ -27,20 +38,27 @@ object ApiClient {
     }
 
     private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(45, TimeUnit.SECONDS) // LLM calls can take 10-30s
-        .writeTimeout(15, TimeUnit.SECONDS)
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(10, TimeUnit.SECONDS)
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         })
         .build()
 
-    val api: ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
-            .create(ApiService::class.java)
-    }
+    @Volatile
+    private var retrofitInstance: ApiService? = null
+
+    val api: ApiService
+        get() {
+            return retrofitInstance ?: synchronized(this) {
+                retrofitInstance ?: Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .client(okHttpClient)
+                    .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+                    .build()
+                    .create(ApiService::class.java)
+                    .also { retrofitInstance = it }
+            }
+        }
 }

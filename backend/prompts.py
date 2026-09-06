@@ -74,6 +74,10 @@ def format_candidates(nodes: list) -> str:
         parts = [f"ID: {node.id}", f"Label: {node.label}"]
         if node.subtitle:
             parts.append(f"Subtitle: {node.subtitle}")
+        if getattr(node, 'screen_title', None):
+            parts.append(f"Screen: {node.screen_title}")
+        if getattr(node, 'path_breadcrumbs', None) and node.path_breadcrumbs:
+            parts.append(f"Path: {' > '.join(node.path_breadcrumbs)}")
         parts.append(f"Depth: {node.depth}")
         if node.direct_intent_action:
             parts.append(f"Direct intent: {node.direct_intent_action}")

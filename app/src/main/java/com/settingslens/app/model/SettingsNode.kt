@@ -24,6 +24,9 @@ data class SettingsNode(
     /** Screen signature of the screen this node appears on. */
     val screenSignature: String,
     
+    /** Human-readable screen title where this node lives. */
+    val screenTitle: String? = null,
+    
     /** ID of the parent node (null for root-level items). */
     val parentId: String? = null,
     
@@ -47,5 +50,8 @@ data class SettingsNode(
     val isClickable: Boolean = true,
     
     /** IDs of child nodes (populated after crawl completes). */
-    val childIds: MutableList<String> = mutableListOf()
+    val childIds: MutableList<String> = mutableListOf(),
+    
+    /** Ordered click-path from Settings root to this node's screen (e.g. ["Network & internet", "Wi-Fi"]). */
+    val pathBreadcrumbs: List<String> = emptyList()
 )

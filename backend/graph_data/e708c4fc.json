@@ -1,0 +1,703 @@
+{
+  "graphId": "e708c4fc",
+  "deviceManufacturer": "vivo",
+  "deviceModel": "V2153",
+  "androidVersion": 34,
+  "nodes": [
+    {
+      "id": "node_1",
+      "label": "abha**2@gmail.com",
+      "subtitle": "Security & privacy, device management, Help & feedback",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "abha**2@gmail.com",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_2",
+      "label": "Network & internet",
+      "subtitle": "Wi-Fi, SIM card & mobile network, Hotspot & tethering",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Network & internet",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.WIRELESS_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_25",
+        "node_26",
+        "node_27",
+        "node_28",
+        "node_29",
+        "node_30",
+        "node_31",
+        "node_32"
+      ]
+    },
+    {
+      "id": "node_3",
+      "label": "Bluetooth & devices",
+      "subtitle": "Smart Mirroring, Android Auto",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Bluetooth & devices",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.BLUETOOTH_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_4",
+      "label": "Display & brightness",
+      "subtitle": "Eye Protection, Dark theme, status bar",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Display & brightness",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.DISPLAY_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_5",
+      "label": "Lock screen & wallpaper",
+      "subtitle": "Always On Display, themes, home settings",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Lock screen & wallpaper",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_6",
+      "label": "Dynamic effects",
+      "subtitle": "Personalized animation effects",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Dynamic effects",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_7",
+      "label": "Sounds & vibration",
+      "subtitle": "Volume, Do Not Disturb mode",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Sounds & vibration",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.SOUND_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_8",
+      "label": "Apps",
+      "subtitle": "Recent apps, default apps",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Apps",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.APPLICATION_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_9",
+      "label": "Notifications",
+      "subtitle": "Notification history, conversations",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Notifications",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.APP_NOTIFICATION_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_10",
+      "label": "System update",
+      "subtitle": "Updated to PD2201F_EX_A_14.2.14.2.W30",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "System update",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_11",
+      "label": "Battery",
+      "subtitle": "100%",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Battery",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.intent.action.POWER_USAGE_SUMMARY",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_12",
+      "label": "RAM & storage space",
+      "subtitle": "73% used - 34.93 GB free",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "RAM & storage space",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.INTERNAL_STORAGE_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_13",
+      "label": "Security",
+      "subtitle": "Password, fingerprint, face",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Security",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.SECURITY_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_14",
+      "label": "Privacy",
+      "subtitle": "Permissions, personal data",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Privacy",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_15",
+      "label": "Location",
+      "subtitle": "Loading…",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Location",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.LOCATION_SOURCE_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_16",
+      "label": "Ultra Game Mode",
+      "subtitle": "Game Assistant, Game Do Not Disturb, Esports Mode",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Ultra Game Mode",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_17",
+      "label": "Shortcuts & accessibility",
+      "subtitle": "S-capture, Smart Motion, Accessibility",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Shortcuts & accessibility",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.ACCESSIBILITY_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_18",
+      "label": "Safety & emergency",
+      "subtitle": "Emergency SOS, medical info, alerts",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Safety & emergency",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_19",
+      "label": "Digital Wellbeing & parental controls",
+      "subtitle": "Screen time, app timers, bedtime schedules",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Digital Wellbeing & parental controls",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_20",
+      "label": "Google",
+      "subtitle": "Services & preferences",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Google",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_21",
+      "label": "Accounts",
+      "subtitle": "vivo account, other accounts",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Accounts",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_22",
+      "label": "System",
+      "subtitle": "System navigation, languages & input, backup",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "System",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_23",
+      "label": "About phone",
+      "subtitle": "freeze",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "About phone",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_24",
+      "label": "Location",
+      "subtitle": "On - 34 apps have access to location",
+      "screenSignature": "120c7b114971b3ae",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Location",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.LOCATION_SOURCE_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_25",
+      "label": "Wi-Fi",
+      "subtitle": "No.",
+      "screenSignature": "35d6b47cb0f3c860",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Wi-Fi",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_26",
+      "label": "SIM card & mobile network",
+      "subtitle": null,
+      "screenSignature": "35d6b47cb0f3c860",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "SIM card & mobile network",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_33",
+        "node_34",
+        "node_35",
+        "node_36",
+        "node_37",
+        "node_38",
+        "node_39"
+      ]
+    },
+    {
+      "id": "node_27",
+      "label": "Hotspot & tethering",
+      "subtitle": "Disable",
+      "screenSignature": "35d6b47cb0f3c860",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Hotspot & tethering",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_25",
+        "node_26",
+        "node_27",
+        "node_28",
+        "node_29",
+        "node_30",
+        "node_31",
+        "node_32"
+      ]
+    },
+    {
+      "id": "node_28",
+      "label": "Network management",
+      "subtitle": null,
+      "screenSignature": "35d6b47cb0f3c860",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Network management",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_29",
+      "label": "Data Saver",
+      "subtitle": "Off",
+      "screenSignature": "35d6b47cb0f3c860",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Data Saver",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_30",
+      "label": "VPN",
+      "subtitle": "None",
+      "screenSignature": "35d6b47cb0f3c860",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "VPN",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_31",
+      "label": "Private DNS",
+      "subtitle": "dns.adguard.com",
+      "screenSignature": "35d6b47cb0f3c860",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Private DNS",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_32",
+      "label": "Looking for other settings?",
+      "subtitle": "Show data information",
+      "screenSignature": "35d6b47cb0f3c860",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "com.android.settings:id/recommend_recycler_view_label",
+        "text": "Looking for other settings?",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.FrameLayout",
+      "isClickable": false,
+      "childIds": []
+    },
+    {
+      "id": "node_33",
+      "label": "Mobile data",
+      "subtitle": "Access data using mobile network",
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Mobile data",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_34",
+      "label": "Preferred SIM card",
+      "subtitle": null,
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Preferred SIM card",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": []
+    },
+    {
+      "id": "node_35",
+      "label": "Mobile data",
+      "subtitle": "Selection required",
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Mobile data",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_36",
+      "label": "Calls",
+      "subtitle": "Ask every time",
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Calls",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_37",
+      "label": "SMS",
+      "subtitle": "Selection required",
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "SMS",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": []
+    },
+    {
+      "id": "node_38",
+      "label": "SIM card info and settings",
+      "subtitle": null,
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "SIM card info and settings",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": []
+    },
+    {
+      "id": "node_39",
+      "label": "No SIM",
+      "subtitle": null,
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "com.android.settings:id/tv_middle",
+        "text": "No SIM",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.RelativeLayout",
+      "isClickable": true,
+      "childIds": []
+    }
+  ],
+  "createdAt": "2026-09-06T00:23:35.854832Z",
+  "screenSignatures": [
+    "120c7b114971b3ae",
+    "35d6b47cb0f3c860",
+    "6dca0c8b8aa6c78f"
+  ]
+}

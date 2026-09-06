@@ -1,218 +1,426 @@
 package com.settingslens.app.accessibility
 
+import android.graphics.Rect
 import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
 import com.settingslens.app.model.NodeSelector
 
 /**
- * Extracts meaningful node information from an AccessibilityNodeInfo tree.
+ * Extracts structured node information from an AccessibilityNodeInfo tree.
  *
- * Design: AccessibilityNodeInfo is ephemeral — valid only while the window
- * is displayed. We extract stable selectors (resource-id, text, content-desc)
- * that can be used to re-find the node in a future accessibility session.
- *
- * We filter the tree to only user-meaningful items: clickable settings rows,
- * switches, sliders — not internal ViewGroups or decorative elements.
+ * Key Architecture:
+ * 1. Preference Row Grouping: Treats each settings item container as a single logical entity,
+ *    unifying title, subtitle, and control widgets without producing duplicate phantom nodes.
+ * 2. Leaf vs Navigation Discrimination: Inspects for embedded toggles (Switch, CheckBox, SeekBar)
+ *    to mark isNavigationCandidate = false, preventing inadvertent setting changes or false recursions.
+ * 3. Text-First Selector Resolution: Prioritizes exact label match over non-unique framework IDs,
+ *    preventing click misdirection.
  */
 object NodeExtractor {
 
-    private const val TAG = "NodeExtractor"
+    private const val TAG = "SettingsLens:Extractor"
 
-    /**
-     * Data extracted from a single accessibility node.
-     * This is a transient extraction — NOT stored long-term.
-     * It gets converted to a SettingsNode for graph storage.
-     */
     data class ExtractedNode(
         val label: String,
         val subtitle: String?,
         val selector: NodeSelector,
         val className: String?,
         val isClickable: Boolean,
-        val bounds: android.graphics.Rect,
-        /** The live node reference — only valid during this extraction session. */
+        val isNavigationCandidate: Boolean,
+        val bounds: Rect,
         val liveNode: AccessibilityNodeInfo
     )
 
     /**
-     * Extract all user-meaningful items from the current screen.
-     *
-     * @param root The root AccessibilityNodeInfo of the current window
-     * @return List of extracted nodes representing settings items
+     * Extract all settings rows from the current screen without duplicates.
      */
     fun extractScreenItems(root: AccessibilityNodeInfo?): List<ExtractedNode> {
         if (root == null) return emptyList()
 
         val items = mutableListOf<ExtractedNode>()
-        val visited = mutableSetOf<Int>() // Track visited node hashes to avoid duplicates
+        val visitedHashes = mutableSetOf<Int>()
 
-        extractRecursive(root, items, visited, depth = 0)
+        // Check if there is a primary scrollable list (RecyclerView / ListView)
+        val listContainer = findListContainer(root)
 
-        Log.d(TAG, "Extracted ${items.size} items from screen")
-        return items
+        if (listContainer != null && listContainer.childCount > 0) {
+            // Process children of the list container directly
+            for (i in 0 until listContainer.childCount) {
+                val child = listContainer.getChild(i) ?: continue
+                processItemContainer(child, items, visitedHashes)
+            }
+        } else {
+            // Fallback for screens without RecyclerView (ScrollView / LinearLayout hierarchy)
+            extractRecursive(root, items, visitedHashes, depth = 0)
+        }
+
+        // Deduplicate any items that might have identical labels and identical bounds
+        val distinctItems = mutableListOf<ExtractedNode>()
+        val seenSignatures = mutableSetOf<String>()
+        for (item in items) {
+            val key = "${item.label}|${item.bounds.top}|${item.bounds.bottom}"
+            if (seenSignatures.add(key)) {
+                distinctItems.add(item)
+            }
+        }
+
+        Log.d(TAG, "📋 [Extracted Settings] Found ${distinctItems.size} items on current screen.")
+        return distinctItems
     }
 
     /**
-     * Get the screen title from the window/root node.
-     * Tries: window title, toolbar/action bar text, first heading node.
+     * Extract screen title from toolbar, action bar, heading, or top-level pane title.
      */
     fun extractScreenTitle(root: AccessibilityNodeInfo?): String? {
         if (root == null) return null
 
-        // Try to find a node with role heading or a toolbar title
-        val title = findFirstByPredicate(root) { node ->
-            // Check for heading role (API 28+)
-            node.isHeading ||
-            // Check for toolbar/action bar title patterns
-            node.viewIdResourceName?.contains("action_bar_title") == true ||
-            node.viewIdResourceName?.contains("collapsing_toolbar") == true ||
-            node.viewIdResourceName?.contains("header_title") == true
+        // 1. Check for heading role (API 28+)
+        val headingNode = findFirstByPredicate(root) { it.isHeading && !it.text.isNullOrBlank() }
+        if (headingNode?.text?.isNotBlank() == true) {
+            return headingNode.text.toString().trim()
         }
 
-        val titleText = title?.text?.toString()
-        if (titleText != null) return titleText
+        // 2. Check toolbar / action bar title patterns (Pixel, Vivo, Samsung, MIUI)
+        val toolbarTitle = findFirstByPredicate(root) { node ->
+            val resId = node.viewIdResourceName?.lowercase() ?: ""
+            val cls = node.className?.toString() ?: ""
+            val isTitleRes = resId.contains("action_bar_title") ||
+                    resId.contains("toolbar_title") ||
+                    resId.contains("collapsing_toolbar") ||
+                    resId.contains("header_title") ||
+                    resId.contains("entity_header_title") ||
+                    resId.contains("suc_layout_title") ||
+                    resId.contains("vivo_action_bar_title") ||
+                    (resId.endsWith(":id/title") && node.parent?.className?.contains("Toolbar") == true)
 
-        // Fallback: window title from pane title
-        val paneTitle = root.paneTitle?.toString()
-        if (paneTitle != null) return paneTitle
+            (isTitleRes || cls.contains("Toolbar")) && !node.text.isNullOrBlank()
+        }
 
-        return null
+        if (toolbarTitle?.text?.isNotBlank() == true) {
+            return toolbarTitle.text.toString().trim()
+        }
+
+        // 3. Fallback: window pane title
+        val paneTitle = root.paneTitle?.toString()?.trim()
+        if (!paneTitle.isNullOrBlank()) {
+            return paneTitle
+        }
+
+        // 4. Fallback: prominent TextView at top of viewport (< 250px from top)
+        val topText = findFirstByPredicate(root) { node ->
+            if (node.className?.contains("TextView") == true && !node.text.isNullOrBlank()) {
+                val bounds = Rect()
+                node.getBoundsInScreen(bounds)
+                bounds.top in 50..250 && bounds.height() > 30
+            } else {
+                false
+            }
+        }
+
+        return topText?.text?.toString()?.trim()
+    }
+
+    private fun findListContainer(root: AccessibilityNodeInfo): AccessibilityNodeInfo? {
+        return findFirstByPredicate(root) { node ->
+            val cls = node.className?.toString() ?: ""
+            cls.contains("RecyclerView") || cls.contains("ListView")
+        }
+    }
+
+    private fun processItemContainer(
+        container: AccessibilityNodeInfo,
+        items: MutableList<ExtractedNode>,
+        visitedHashes: MutableSet<Int>
+    ) {
+        val hash = System.identityHashCode(container)
+        if (hash in visitedHashes) return
+        visitedHashes.add(hash)
+
+        val textNodes = mutableListOf<AccessibilityNodeInfo>()
+        var hasToggle = false
+        var hasSlider = false
+
+        inspectDescendants(container, textNodes) { widgetNode ->
+            val cls = widgetNode.className?.toString() ?: ""
+            if (cls.contains("Switch") || cls.contains("CheckBox") || cls.contains("RadioButton")) {
+                hasToggle = true
+            }
+            if (cls.contains("SeekBar")) {
+                hasSlider = true
+            }
+        }
+
+        if (textNodes.isEmpty()) {
+            val contentDesc = container.contentDescription?.toString()?.trim()
+            if (!contentDesc.isNullOrBlank() && container.isClickable) {
+                val bounds = Rect()
+                container.getBoundsInScreen(bounds)
+                items.add(
+                    ExtractedNode(
+                        label = contentDesc,
+                        subtitle = null,
+                        selector = NodeSelector(contentDescription = contentDesc),
+                        className = container.className?.toString(),
+                        isClickable = true,
+                        isNavigationCandidate = !hasToggle && !hasSlider,
+                        bounds = bounds,
+                        liveNode = container
+                    )
+                )
+            }
+            return
+        }
+
+        // Determine title vs summary
+        var titleNode = textNodes.find {
+            val id = it.viewIdResourceName?.lowercase() ?: ""
+            id.contains("title") && !id.contains("subtitle")
+        }
+        if (titleNode == null) {
+            titleNode = textNodes.first()
+        }
+
+        val titleText = titleNode.text?.toString()?.trim()
+        if (titleText.isNullOrBlank()) return
+
+        val summaryNode = textNodes.find {
+            val id = it.viewIdResourceName?.lowercase() ?: ""
+            (id.contains("summary") || id.contains("subtitle")) && it != titleNode
+        } ?: textNodes.firstOrNull { it != titleNode && !it.text.isNullOrBlank() }
+
+        val summaryText = summaryNode?.text?.toString()?.trim()
+
+        val bounds = Rect()
+        container.getBoundsInScreen(bounds)
+
+        val lowerTitle = titleText.lowercase()
+        val isAccountOrAuth = lowerTitle.contains("@") ||
+                lowerTitle.contains("account") ||
+                lowerTitle.contains("password") ||
+                lowerTitle.contains("sign in") ||
+                lowerTitle.contains("fingerprint") ||
+                lowerTitle.contains("face recognition") ||
+                lowerTitle.contains("face unlock") ||
+                lowerTitle.contains("suggestion") ||
+                lowerTitle.contains("screen lock")
+
+        val hasRadioOrCheck = findAllByPredicate(container) {
+            val c = it.className?.toString() ?: ""
+            c.contains("RadioButton") || c.contains("CheckBox") || c.contains("CheckedTextView")
+        }.isNotEmpty()
+
+        val isClickable = container.isClickable || titleNode.isClickable || isClickableItem(container)
+        val isNavigation = isClickable && !hasToggle && !hasSlider && !hasRadioOrCheck && !isAccountOrAuth
+
+        items.add(
+            ExtractedNode(
+                label = titleText,
+                subtitle = summaryText,
+                selector = NodeSelector(
+                    resourceId = titleNode.viewIdResourceName,
+                    text = titleText
+                ),
+                className = container.className?.toString() ?: titleNode.className?.toString(),
+                isClickable = isClickable,
+                isNavigationCandidate = isNavigation,
+                bounds = bounds,
+                liveNode = if (container.isClickable) container else titleNode
+            )
+        )
     }
 
     private fun extractRecursive(
         node: AccessibilityNodeInfo,
         items: MutableList<ExtractedNode>,
-        visited: MutableSet<Int>,
+        visitedHashes: MutableSet<Int>,
         depth: Int
     ) {
-        // Safety: don't recurse too deep (some OEM UIs have very deep view hierarchies)
-        if (depth > 30) return
+        if (depth > 25) return
+        val hash = System.identityHashCode(node)
+        if (hash in visitedHashes) return
+        visitedHashes.add(hash)
 
-        val nodeHash = System.identityHashCode(node)
-        if (nodeHash in visited) return
-        visited.add(nodeHash)
-
-        // Check if this node is a meaningful settings item
-        if (isSettingsItem(node)) {
-            val label = getNodeLabel(node)
-            if (label != null && label.isNotBlank()) {
-                val subtitle = getSubtitle(node)
-                val selector = buildSelector(node)
-
-                if (selector.isValid()) {
-                    val bounds = android.graphics.Rect()
-                    node.getBoundsInScreen(bounds)
-
-                    items.add(
-                        ExtractedNode(
-                            label = label,
-                            subtitle = subtitle,
-                            selector = selector,
-                            className = node.className?.toString(),
-                            isClickable = isClickableItem(node),
-                            bounds = bounds,
-                            liveNode = node
-                        )
-                    )
-                }
-            }
+        // If this node is a clickable container with children, process as unified row
+        if (node.isClickable && node.childCount > 0) {
+            processItemContainer(node, items, visitedHashes)
+            return // Don't recurse into row children to avoid duplicate sub-nodes
         }
 
-        // Recurse into children
+        // Standalone TextView or Button
+        val cls = node.className?.toString() ?: ""
+        if ((cls.contains("TextView") || cls.contains("Button")) && !node.text.isNullOrBlank()) {
+            val text = node.text.toString().trim()
+            val lowerText = text.lowercase()
+            val isAccountOrAuth = lowerText.contains("@") ||
+                    lowerText.contains("account") ||
+                    lowerText.contains("password") ||
+                    lowerText.contains("sign in") ||
+                    lowerText.contains("fingerprint") ||
+                    lowerText.contains("face recognition") ||
+                    lowerText.contains("face unlock") ||
+                    lowerText.contains("suggestion") ||
+                    lowerText.contains("screen lock")
+
+            val bounds = Rect()
+            node.getBoundsInScreen(bounds)
+            items.add(
+                ExtractedNode(
+                    label = text,
+                    subtitle = null,
+                    selector = NodeSelector(resourceId = node.viewIdResourceName, text = text),
+                    className = cls,
+                    isClickable = node.isClickable || isClickableItem(node),
+                    isNavigationCandidate = (node.isClickable || isClickableItem(node)) &&
+                            !cls.contains("Button") &&
+                            !cls.contains("Radio") &&
+                            !cls.contains("Check") &&
+                            !isAccountOrAuth,
+                    bounds = bounds,
+                    liveNode = node
+                )
+            )
+            return
+        }
+
         for (i in 0 until node.childCount) {
             val child = node.getChild(i) ?: continue
-            extractRecursive(child, items, visited, depth + 1)
+            extractRecursive(child, items, visitedHashes, depth + 1)
+        }
+    }
+
+    private fun inspectDescendants(
+        root: AccessibilityNodeInfo,
+        textNodes: MutableList<AccessibilityNodeInfo>,
+        onWidgetFound: (AccessibilityNodeInfo) -> Unit
+    ) {
+        val queue = ArrayDeque<AccessibilityNodeInfo>()
+        queue.add(root)
+
+        while (queue.isNotEmpty()) {
+            val current = queue.removeFirst()
+
+            val cls = current.className?.toString() ?: ""
+            if (cls.contains("TextView") && !current.text.isNullOrBlank()) {
+                textNodes.add(current)
+            } else if (cls.contains("Switch") || cls.contains("CheckBox") ||
+                cls.contains("RadioButton") || cls.contains("SeekBar")
+            ) {
+                onWidgetFound(current)
+            }
+
+            for (i in 0 until current.childCount) {
+                current.getChild(i)?.let { queue.add(it) }
+            }
         }
     }
 
     /**
-     * Determines if a node represents a user-meaningful settings item
-     * (as opposed to a layout container or decorative element).
-     */
-    private fun isSettingsItem(node: AccessibilityNodeInfo): Boolean {
-        val className = node.className?.toString() ?: return false
-
-        // Skip pure layout containers with no text
-        if (node.text.isNullOrBlank() && node.contentDescription.isNullOrBlank()) {
-            return false
-        }
-
-        // Include: TextViews that are part of clickable parents, switches, checkboxes, etc.
-        val isInteractiveWidget = className.contains("Switch") ||
-                className.contains("CheckBox") ||
-                className.contains("RadioButton") ||
-                className.contains("SeekBar") ||
-                className.contains("Spinner")
-
-        val isTextItem = (className.contains("TextView") || className.contains("Button")) &&
-                !node.text.isNullOrBlank()
-
-        // A clickable container with text is a settings row
-        val isClickableWithText = isClickableItem(node) && !node.text.isNullOrBlank()
-
-        return isInteractiveWidget || isTextItem || isClickableWithText
-    }
-
-    /**
-     * Check if a node (or its nearest ancestor) is clickable.
-     * Settings items are often TextViews inside a clickable LinearLayout.
+     * Check if a node (or its ancestor within 3 hops) is marked clickable.
      */
     private fun isClickableItem(node: AccessibilityNodeInfo): Boolean {
         if (node.isClickable) return true
-
-        // Walk up to find a clickable parent (max 3 levels — performance guard)
         var parent = node.parent
-        var levels = 0
-        while (parent != null && levels < 3) {
+        var hops = 0
+        while (parent != null && hops < 3) {
             if (parent.isClickable) return true
             parent = parent.parent
-            levels++
+            hops++
         }
         return false
     }
 
     /**
-     * Get the primary label text for a node.
+     * Find a node matching a NodeSelector in the current window tree.
+     * Searches exact text first for uniqueness, then resource ID with text verification.
      */
-    private fun getNodeLabel(node: AccessibilityNodeInfo): String? {
-        // Prefer text, fall back to content description
-        return node.text?.toString()?.trim()
-            ?: node.contentDescription?.toString()?.trim()
-    }
+    fun findNodeBySelector(root: AccessibilityNodeInfo?, selector: NodeSelector): AccessibilityNodeInfo? {
+        if (root == null) return null
 
-    /**
-     * Try to get subtitle/summary text — often the next sibling or child TextView
-     * with a resource ID containing "summary".
-     */
-    private fun getSubtitle(node: AccessibilityNodeInfo): String? {
-        val parent = node.parent ?: return null
+        // 1. Text match first — settings labels are unique on screen
+        if (!selector.text.isNullOrBlank()) {
+            val textMatches = root.findAccessibilityNodeInfosByText(selector.text.trim())
+            val exact = textMatches.find { it.text?.toString()?.trim().equals(selector.text.trim(), ignoreCase = true) }
+            if (exact != null) return exact
 
-        for (i in 0 until parent.childCount) {
-            val sibling = parent.getChild(i) ?: continue
-            if (sibling == node) continue
+            val partial = textMatches.find { it.text?.toString()?.contains(selector.text.trim(), ignoreCase = true) == true }
+            if (partial != null) return partial
+        }
 
-            val resId = sibling.viewIdResourceName
-            if (resId != null && (resId.contains("summary") || resId.contains("subtitle"))) {
-                return sibling.text?.toString()?.trim()
+        // 2. Resource ID match (verify text if selector provides text)
+        if (!selector.resourceId.isNullOrBlank()) {
+            val resMatches = root.findAccessibilityNodeInfosByViewId(selector.resourceId)
+            if (resMatches.isNotEmpty()) {
+                if (!selector.text.isNullOrBlank()) {
+                    val matchingText = resMatches.find { node ->
+                        node.text?.toString()?.trim().equals(selector.text.trim(), ignoreCase = true)
+                    }
+                    if (matchingText != null) return matchingText
+                } else if (resMatches.size == 1) {
+                    return resMatches.first()
+                }
             }
         }
+
+        // 3. Content description
+        if (!selector.contentDescription.isNullOrBlank()) {
+            return findFirstByPredicate(root) { node ->
+                node.contentDescription?.toString()?.trim().equals(selector.contentDescription.trim(), ignoreCase = true)
+            }
+        }
+
         return null
     }
 
     /**
-     * Build a NodeSelector from the most stable identifiers available.
-     * Priority: resource-id > text > content description.
+     * Find a clickable node for the given selector.
+     * If the matched node isn't clickable, walks up ancestors to locate the clickable row container.
      */
-    private fun buildSelector(node: AccessibilityNodeInfo): NodeSelector {
-        return NodeSelector(
-            resourceId = node.viewIdResourceName,
-            text = node.text?.toString()?.trim(),
-            contentDescription = node.contentDescription?.toString()?.trim()
-        )
+    fun findClickableNode(root: AccessibilityNodeInfo?, selector: NodeSelector): AccessibilityNodeInfo? {
+        val node = findNodeBySelector(root, selector) ?: return null
+
+        if (node.isClickable) return node
+
+        var parent = node.parent
+        var levels = 0
+        while (parent != null && levels < 5) {
+            if (parent.isClickable) return parent
+            parent = parent.parent
+            levels++
+        }
+
+        return node
     }
 
     /**
-     * Find the first node matching a predicate (BFS).
+     * Scroll scrollable containers forward (innermost first).
+     */
+    fun scrollForward(root: AccessibilityNodeInfo?): Boolean {
+        if (root == null) return false
+        val scrollables = findAllByPredicate(root) { it.isScrollable }
+        for (scrollable in scrollables.reversed()) {
+            if (scrollable.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    /**
+     * Scroll scrollable containers backward (innermost first).
+     */
+    fun scrollBackward(root: AccessibilityNodeInfo?): Boolean {
+        if (root == null) return false
+        val scrollables = findAllByPredicate(root) { it.isScrollable }
+        for (scrollable in scrollables.reversed()) {
+            if (scrollable.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    /**
+     * Breadth-first search for first node matching predicate.
      */
     private fun findFirstByPredicate(
         root: AccessibilityNodeInfo,
@@ -233,87 +441,25 @@ object NodeExtractor {
     }
 
     /**
-     * Find a node matching a NodeSelector in the current window tree.
-     * Used during navigation to re-find a previously-discovered node.
-     *
-     * Priority: resource-id (most stable) → exact text → content description.
+     * Breadth-first search for all nodes matching predicate.
      */
-    fun findNodeBySelector(root: AccessibilityNodeInfo?, selector: NodeSelector): AccessibilityNodeInfo? {
-        if (root == null) return null
+    fun findAllByPredicate(
+        root: AccessibilityNodeInfo,
+        predicate: (AccessibilityNodeInfo) -> Boolean
+    ): List<AccessibilityNodeInfo> {
+        val matches = mutableListOf<AccessibilityNodeInfo>()
+        val queue = ArrayDeque<AccessibilityNodeInfo>()
+        queue.add(root)
 
-        // Try resource-id first (most stable across OS updates)
-        if (selector.resourceId != null) {
-            val matches = root.findAccessibilityNodeInfosByViewId(selector.resourceId)
-            if (matches.isNotEmpty()) {
-                // If we also have text, use it to disambiguate multiple matches
-                if (selector.text != null) {
-                    val exact = matches.find { it.text?.toString()?.trim() == selector.text }
-                    if (exact != null) return exact
-                }
-                return matches.first()
+        while (queue.isNotEmpty()) {
+            val current = queue.removeFirst()
+            if (predicate(current)) matches.add(current)
+
+            for (i in 0 until current.childCount) {
+                current.getChild(i)?.let { queue.add(it) }
             }
         }
-
-        // Try exact text match
-        if (selector.text != null) {
-            val matches = root.findAccessibilityNodeInfosByText(selector.text)
-            // findByText does substring matching; filter to exact match
-            val exact = matches.find { it.text?.toString()?.trim() == selector.text }
-            if (exact != null) return exact
-            // Fall back to first substring match if no exact match
-            if (matches.isNotEmpty()) return matches.first()
-        }
-
-        // Try content description
-        if (selector.contentDescription != null) {
-            return findFirstByPredicate(root) { node ->
-                node.contentDescription?.toString()?.trim() == selector.contentDescription
-            }
-        }
-
-        return null
-    }
-
-    /**
-     * Find a clickable node for the given selector.
-     * If the matched node itself isn't clickable, walks up to find
-     * the nearest clickable ancestor (settings items are often TextViews
-     * inside clickable LinearLayouts).
-     */
-    fun findClickableNode(root: AccessibilityNodeInfo?, selector: NodeSelector): AccessibilityNodeInfo? {
-        val node = findNodeBySelector(root, selector) ?: return null
-
-        if (node.isClickable) return node
-
-        // Walk up to find clickable parent
-        var parent = node.parent
-        var levels = 0
-        while (parent != null && levels < 5) {
-            if (parent.isClickable) return parent
-            parent = parent.parent
-            levels++
-        }
-
-        // Last resort: try clicking the node itself even if not marked clickable
-        return node
-    }
-
-    /**
-     * Scroll the first scrollable container forward.
-     */
-    fun scrollForward(root: AccessibilityNodeInfo?): Boolean {
-        if (root == null) return false
-        val scrollable = findFirstByPredicate(root) { it.isScrollable }
-        return scrollable?.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD) ?: false
-    }
-
-    /**
-     * Scroll the first scrollable container backward.
-     */
-    fun scrollBackward(root: AccessibilityNodeInfo?): Boolean {
-        if (root == null) return false
-        val scrollable = findFirstByPredicate(root) { it.isScrollable }
-        return scrollable?.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD) ?: false
+        return matches
     }
 }
 

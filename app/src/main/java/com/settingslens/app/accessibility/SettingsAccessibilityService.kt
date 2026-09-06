@@ -106,13 +106,6 @@ class SettingsAccessibilityService : AccessibilityService() {
                     Log.d(TAG, "🪟 [Window Transition] Screen state changed to $pkg ($cls)")
                     notifyWindowSettle()
                 }
-
-                AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-                    // Filter down to structural SUBTREE changes to avoid logging cursor blinks and progress ticks
-                    if (event.contentChangeTypes and AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE != 0) {
-                        notifyWindowSettle()
-                    }
-                }
             }
         } catch (e: Exception) {
             Log.w(TAG, "⚠️ [Event Handler Recovered] Ignored benign error during window event processing: ${e.localizedMessage}")
@@ -135,8 +128,8 @@ class SettingsAccessibilityService : AccessibilityService() {
      * Suspend until a window change event fires, or until [timeoutMs] elapses.
      *
      * Event-driven settle detection:
-     * - Resumes immediately if an accessibility event confirms the screen changed.
-     * - Falls back safely after timeout if the screen was already settled or animations were fast.
+     * - Resumes immediately when TYPE_WINDOW_STATE_CHANGED confirms an Activity/window transition.
+     * - Falls back safely after timeout if screen was already settled.
      */
     suspend fun waitForWindowSettle(timeoutMs: Long) {
         try {
@@ -150,10 +143,64 @@ class SettingsAccessibilityService : AccessibilityService() {
             }
             Log.d(TAG, "⏱️ [Screen Settled] Transition confirmed via window change event.")
         } catch (e: TimeoutCancellationException) {
-            Log.d(TAG, "⏱️ [Screen Settle Timeout] Settle wait concluded after ${timeoutMs}ms (screen stable, proceeding safely).")
+            Log.d(TAG, "⏱️ [Screen Settle Timeout] Settle wait concluded after ${timeoutMs}ms.")
         }
-        // Small buffer to allow layout redraws and visual settling to finish
-        delay(200)
+        // Buffer to allow sub-views to finish drawing
+        delay(80)
+    }
+
+    /**
+     * Dispatch a gesture swipe to scroll down/forward smoothly on any device.
+     */
+    suspend fun swipeUp(): Boolean = suspendCancellableCoroutine { cont ->
+        val path = android.graphics.Path().apply {
+            moveTo(540f, 1600f)
+            lineTo(540f, 600f)
+        }
+        val gesture = android.accessibilityservice.GestureDescription.Builder()
+            .addStroke(android.accessibilityservice.GestureDescription.StrokeDescription(path, 0, 150))
+            .build()
+
+        val dispatched = dispatchGesture(gesture, object : GestureResultCallback() {
+            override fun onCompleted(gestureDescription: android.accessibilityservice.GestureDescription?) {
+                if (cont.isActive) cont.resume(true)
+            }
+
+            override fun onCancelled(gestureDescription: android.accessibilityservice.GestureDescription?) {
+                if (cont.isActive) cont.resume(false)
+            }
+        }, null)
+
+        if (!dispatched && cont.isActive) {
+            cont.resume(false)
+        }
+    }
+
+    /**
+     * Dispatch a gesture swipe to scroll up/backward smoothly on any device.
+     */
+    suspend fun swipeDown(): Boolean = suspendCancellableCoroutine { cont ->
+        val path = android.graphics.Path().apply {
+            moveTo(540f, 600f)
+            lineTo(540f, 1600f)
+        }
+        val gesture = android.accessibilityservice.GestureDescription.Builder()
+            .addStroke(android.accessibilityservice.GestureDescription.StrokeDescription(path, 0, 150))
+            .build()
+
+        val dispatched = dispatchGesture(gesture, object : GestureResultCallback() {
+            override fun onCompleted(gestureDescription: android.accessibilityservice.GestureDescription?) {
+                if (cont.isActive) cont.resume(true)
+            }
+
+            override fun onCancelled(gestureDescription: android.accessibilityservice.GestureDescription?) {
+                if (cont.isActive) cont.resume(false)
+            }
+        }, null)
+
+        if (!dispatched && cont.isActive) {
+            cont.resume(false)
+        }
     }
 
     // ─── Public API for the app ─────────────────────────────────────────

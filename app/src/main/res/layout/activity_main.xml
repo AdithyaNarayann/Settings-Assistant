@@ -101,10 +101,25 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Discovered Settings"
+        android:text="Discovered Settings Tree"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/on_surface"
+        android:layout_marginBottom="6dp" />
+
+    <!-- Tree Search / Filter bar -->
+    <EditText
+        android:id="@+id/searchTreeInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="🔍 Filter tree by name or path..."
+        android:textSize="13sp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="#F5F5F5"
+        android:singleLine="true"
         android:layout_marginBottom="8dp" />
 
     <!-- Graph node list -->

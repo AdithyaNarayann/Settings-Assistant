@@ -25,6 +25,7 @@ class SettingsNode(BaseSchema):
     label: str
     subtitle: Optional[str] = None
     screen_signature: str
+    screen_title: Optional[str] = None
     parent_id: Optional[str] = None
     selector: NodeSelector
     depth: int
@@ -32,6 +33,7 @@ class SettingsNode(BaseSchema):
     class_name: Optional[str] = None
     is_clickable: bool = True
     child_ids: list[str] = []
+    path_breadcrumbs: list[str] = []
 
 
 class SettingsGraph(BaseSchema):

@@ -25,6 +25,7 @@ import com.settingslens.app.accessibility.NavigateEngine
 import com.settingslens.app.accessibility.SettingsAccessibilityService
 import com.settingslens.app.data.ApiClient
 import com.settingslens.app.data.GraphStorage
+import com.settingslens.app.data.LocalResolver
 import com.settingslens.app.data.ResolveRequest
 import com.settingslens.app.model.ResolveResponse
 import com.settingslens.app.voice.TtsManager
@@ -113,7 +114,7 @@ class BubbleService : Service() {
                 startForeground(
                     NOTIFICATION_ID,
                     createNotification(),
-                    ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE or ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
                 )
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 startForeground(
@@ -309,44 +310,53 @@ class BubbleService : Service() {
     }
 
     private fun resolveTranscript(transcript: String) {
-        val graphId = currentGraphId ?: "local"
+        val graph = graphStorage.loadGraph()
+        if (graph == null) {
+            setBubbleState(BubbleState.IDLE)
+            ttsManager.speak("No settings graph found. Please build the graph in the app first.")
+            return
+        }
 
         serviceScope.launch {
-            try {
-                Log.d(TAG, "🌐 [Querying Assistant] Sending transcript to backend resolver (Graph ID: $graphId)...")
+            var resolvedOnline = false
 
-                val response = withContext(Dispatchers.IO) {
-                    ApiClient.api.resolve(
-                        ResolveRequest(
-                            graphId = graphId,
-                            transcript = transcript,
-                            conversationState = conversationState
-                        )
-                    )
+            // Try backend first if server is reachable
+            try {
+                var graphId = currentGraphId ?: graph.graphId
+                if (graphId == null) {
+                    Log.d(TAG, "☁️ [Syncing Graph] Attempting quick graph upload before resolve...")
+                    val uploadResponse = withContext(Dispatchers.IO) {
+                        ApiClient.api.uploadGraph(graph)
+                    }
+                    graphId = uploadResponse.graphId
+                    graph.graphId = graphId
+                    graphStorage.saveGraph(graph)
+                    currentGraphId = graphId
                 }
 
-                handleResolveResponse(response)
-
-            } catch (e: ConnectException) {
-                val failureMsg = "Cannot connect to the backend server. Please verify the FastAPI server is running."
-                Log.e(TAG, "🔌 [Backend Connection Failed] $failureMsg (${e.message})")
-                setBubbleState(BubbleState.IDLE)
-                ttsManager.speak("Cannot reach the assistant server. Please make sure the backend is running.")
-            } catch (e: SocketTimeoutException) {
-                val timeoutMsg = "The server took too long to resolve the setting. Please try again."
-                Log.e(TAG, "⏱️ [Backend Timeout] $timeoutMsg")
-                setBubbleState(BubbleState.IDLE)
-                ttsManager.speak("The assistant took too long to respond. Please try again.")
-            } catch (e: UnknownHostException) {
-                val hostMsg = "Cannot reach server host. Please check your network connection."
-                Log.e(TAG, "🌐 [DNS / Host Error] $hostMsg (${e.message})")
-                setBubbleState(BubbleState.IDLE)
-                ttsManager.speak("Cannot connect to server. Please check your network connection.")
+                if (graphId != null) {
+                    Log.d(TAG, "🌐 [Querying Assistant] Sending transcript to backend resolver (Graph ID: $graphId)...")
+                    val response = withContext(Dispatchers.IO) {
+                        ApiClient.api.resolve(
+                            ResolveRequest(
+                                graphId = graphId,
+                                transcript = transcript,
+                                conversationState = conversationState
+                            )
+                        )
+                    }
+                    resolvedOnline = true
+                    handleResolveResponse(response)
+                }
             } catch (e: Exception) {
-                val generalMsg = "Could not resolve setting: ${e.localizedMessage}"
-                Log.e(TAG, "💥 [Resolution Error] $generalMsg", e)
-                setBubbleState(BubbleState.IDLE)
-                ttsManager.speak("Sorry, I encountered an issue finding that setting. Please try again.")
+                Log.w(TAG, "🌐 [Backend Unavailable] Online resolution failed (${e.localizedMessage}). Falling back to on-device offline resolver.")
+            }
+
+            // Fallback to local offline resolution if online resolution didn't complete
+            if (!resolvedOnline) {
+                Log.i(TAG, "📱 [Offline Resolver] Resolving query locally against ${graph.nodeCount} nodes...")
+                val localResponse = LocalResolver.resolve(graph, transcript)
+                handleResolveResponse(localResponse)
             }
         }
     }

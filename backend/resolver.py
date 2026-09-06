@@ -57,6 +57,8 @@ def find_candidates(graph: SettingsGraph, transcript: str, max_candidates: int =
         score = 0
         label_lower = node.label.lower()
         subtitle_lower = (node.subtitle or "").lower()
+        title_lower = (node.screen_title or "").lower()
+        breadcrumbs_lower = " ".join(node.path_breadcrumbs).lower()
         
         # Exact label match = high score
         if label_lower in transcript_lower:
@@ -66,11 +68,15 @@ def find_candidates(graph: SettingsGraph, transcript: str, max_candidates: int =
         if transcript_lower in label_lower:
             score += 8
         
-        # Token matches in label
+        # Token matches in label, subtitle, screen title, breadcrumbs
         for token in tokens:
             if len(token) >= 3 and token in label_lower:
                 score += 4
             if len(token) >= 3 and token in subtitle_lower:
+                score += 2
+            if len(token) >= 3 and token in title_lower:
+                score += 3
+            if len(token) >= 3 and token in breadcrumbs_lower:
                 score += 2
         
         if score > 0:

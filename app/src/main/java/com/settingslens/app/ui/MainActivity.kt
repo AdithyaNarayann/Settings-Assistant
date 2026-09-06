@@ -10,7 +10,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -57,9 +62,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var enableA11yButton: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var nodeCountText: TextView
+    private lateinit var searchTreeInput: EditText
     private lateinit var graphRecyclerView: RecyclerView
     private lateinit var graphStorage: GraphStorage
 
+    private var allGraphNodes: List<SettingsNode> = emptyList()
     private var crawlJob: Job? = null
 
     private val activityExceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -83,9 +90,19 @@ class MainActivity : AppCompatActivity() {
         enableA11yButton = findViewById(R.id.enableA11yButton)
         progressBar = findViewById(R.id.progressBar)
         nodeCountText = findViewById(R.id.nodeCountText)
+        searchTreeInput = findViewById(R.id.searchTreeInput)
         graphRecyclerView = findViewById(R.id.graphRecyclerView)
 
         graphRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        // Set up search filter for the settings tree
+        searchTreeInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filterTreeNodes(s?.toString() ?: "")
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         // Set up buttons
         crawlButton.setOnClickListener { startCrawl() }
@@ -196,6 +213,24 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            override fun onNodesUpdated(nodes: List<SettingsNode>) {
+                runOnUiThread {
+                    displayNodes(nodes)
+                    nodeCountText.text = "${nodes.size} settings mapped so far..."
+                    nodeCountText.visibility = View.VISIBLE
+                    // Continuously save to disk so anything already read is never lost!
+                    val partialGraph = SettingsGraph(
+                        deviceManufacturer = android.os.Build.MANUFACTURER,
+                        deviceModel = android.os.Build.MODEL,
+                        androidVersion = android.os.Build.VERSION.SDK_INT,
+                        nodes = nodes,
+                        createdAt = java.time.Instant.now().toString(),
+                        screenSignatures = emptySet()
+                    )
+                    graphStorage.saveGraph(partialGraph)
+                }
+            }
+
             override fun onComplete(graph: SettingsGraph) {
                 runOnUiThread {
                     progressBar.visibility = View.GONE
@@ -204,7 +239,7 @@ class MainActivity : AppCompatActivity() {
                     nodeCountText.text = "${graph.nodeCount} settings mapped • ${graph.screenSignatures.size} screens"
                     nodeCountText.visibility = View.VISIBLE
                     crawlButton.text = getString(R.string.rebuild_button)
-                    displayGraph(graph)
+                    displayNodes(graph.nodes)
 
                     Toast.makeText(
                         this@MainActivity,
@@ -229,6 +264,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun uploadGraphToBackend(graph: SettingsGraph) {
+        // Always save graph locally first so offline resolution works immediately
+        graphStorage.saveGraph(graph)
+
         lifecycleScope.launch(activityExceptionHandler) {
             try {
                 statusText.text = "Syncing graph with backend assistant..."
@@ -246,17 +284,81 @@ class MainActivity : AppCompatActivity() {
                     BubbleService.start(this@MainActivity)
                 }
             } catch (e: ConnectException) {
-                Log.i(TAG, "ℹ️ [Backend Offline] Graph saved locally. Offline keyword matching remains active.")
-                statusText.text = "Settings saved locally. (Backend server offline; local navigation ready)"
+                Log.i(TAG, "ℹ️ [Backend Offline] Graph saved locally. Offline local matching active.")
+                statusText.text = "Settings saved locally. (Backend offline; local resolution ready)"
+                if (Settings.canDrawOverlays(this@MainActivity)) {
+                    BubbleService.start(this@MainActivity)
+                }
             } catch (e: Exception) {
                 Log.w(TAG, "ℹ️ [Sync Notice] Graph saved locally: ${e.localizedMessage}")
                 statusText.text = "Settings saved locally. (Sync notice: ${e.localizedMessage})"
+                if (Settings.canDrawOverlays(this@MainActivity)) {
+                    BubbleService.start(this@MainActivity)
+                }
             }
         }
     }
 
     private fun displayGraph(graph: SettingsGraph) {
-        graphRecyclerView.adapter = GraphAdapter(graph.nodes)
+        displayNodes(graph.nodes)
+    }
+
+    private fun displayNodes(nodes: List<SettingsNode>) {
+        allGraphNodes = buildPreorderTree(nodes)
+        graphRecyclerView.adapter = GraphAdapter(allGraphNodes)
+    }
+
+    /**
+     * Orders settings nodes into a strict preorder hierarchy so each sub-menu
+     * and sub-sub-menu is placed directly beneath its corresponding parent menu.
+     */
+    private fun buildPreorderTree(nodes: List<SettingsNode>): List<SettingsNode> {
+        val nodeMap = nodes.associateBy { it.id }
+        val childrenMap = mutableMapOf<String?, MutableList<SettingsNode>>()
+
+        for (node in nodes) {
+            val pId = if (node.parentId != null && nodeMap.containsKey(node.parentId)) node.parentId else null
+            childrenMap.getOrPut(pId) { mutableListOf() }.add(node)
+        }
+
+        val ordered = mutableListOf<SettingsNode>()
+        val visited = mutableSetOf<String>()
+
+        fun walk(parentId: String?) {
+            val children = childrenMap[parentId] ?: return
+            for (child in children) {
+                if (visited.add(child.id)) {
+                    ordered.add(child)
+                    walk(child.id) // Recurse: place all children directly beneath this parent
+                }
+            }
+        }
+
+        walk(null) // Walk roots (depth 0)
+
+        // Include any unparented nodes if not yet visited
+        for (node in nodes) {
+            if (visited.add(node.id)) {
+                ordered.add(node)
+            }
+        }
+
+        return ordered
+    }
+
+    private fun filterTreeNodes(query: String) {
+        val trimmed = query.trim().lowercase()
+        val filtered = if (trimmed.isEmpty()) {
+            allGraphNodes
+        } else {
+            allGraphNodes.filter { node ->
+                node.label.lowercase().contains(trimmed) ||
+                (node.subtitle ?: "").lowercase().contains(trimmed) ||
+                (node.screenTitle ?: "").lowercase().contains(trimmed) ||
+                node.pathBreadcrumbs.any { it.lowercase().contains(trimmed) }
+            }
+        }
+        graphRecyclerView.adapter = GraphAdapter(filtered)
     }
 
     private fun openAccessibilitySettings() {
@@ -276,15 +378,19 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    // ─── Simple graph adapter for development verification ──────────────
+    // ─── Rich Tree Graph Adapter ─────────────────────────────────────────
 
     private class GraphAdapter(
         private val nodes: List<SettingsNode>
     ) : RecyclerView.Adapter<GraphAdapter.NodeViewHolder>() {
 
         class NodeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val label: TextView = view.findViewById(R.id.nodeLabel)
-            val details: TextView = view.findViewById(R.id.nodeDetails)
+            val treeBranchPrefix: TextView = view.findViewById(R.id.treeBranchPrefix)
+            val nodeIcon: TextView = view.findViewById(R.id.nodeIcon)
+            val nodeLabel: TextView = view.findViewById(R.id.nodeLabel)
+            val depthBadge: TextView = view.findViewById(R.id.depthBadge)
+            val nodeLocation: TextView = view.findViewById(R.id.nodeLocation)
+            val nodeSubtitle: TextView = view.findViewById(R.id.nodeSubtitle)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NodeViewHolder {
@@ -296,16 +402,71 @@ class MainActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
             val node = nodes[position]
 
-            val indent = "    ".repeat(node.depth)
-            holder.label.text = "$indent${node.label}"
-
-            val details = buildString {
-                append("depth=${node.depth}")
-                if (node.subtitle != null) append(" • ${node.subtitle}")
-                if (node.directIntentAction != null) append(" • ⚡direct")
-                append(" • ${node.selector}")
+            // Tree branch line prefix
+            val branchPrefix = when (node.depth) {
+                0 -> ""
+                1 -> "  ├─ "
+                2 -> "      └── "
+                else -> "          └── "
             }
-            holder.details.text = details
+            holder.treeBranchPrefix.text = branchPrefix
+            holder.treeBranchPrefix.visibility = if (node.depth > 0) View.VISIBLE else View.GONE
+
+            // Icon according to depth and nature
+            val icon = when {
+                node.depth == 0 -> "📁"
+                node.depth == 1 && node.childIds.isNotEmpty() -> "📂"
+                node.depth == 1 -> "⚙️"
+                else -> "🔘"
+            }
+            holder.nodeIcon.text = icon
+
+            // Label styling
+            holder.nodeLabel.text = node.label
+            if (node.depth == 0) {
+                holder.nodeLabel.setTypeface(null, Typeface.BOLD)
+                holder.nodeLabel.textSize = 15f
+            } else {
+                holder.nodeLabel.setTypeface(null, Typeface.NORMAL)
+                holder.nodeLabel.textSize = 14f
+            }
+
+            // Depth badge
+            val badgeText = when (node.depth) {
+                0 -> "CATEGORY"
+                1 -> "SUB-MENU"
+                else -> "OPTION"
+            }
+            holder.depthBadge.text = badgeText
+            if (node.depth == 0) {
+                holder.depthBadge.setBackgroundColor(Color.parseColor("#E3F2FD"))
+                holder.depthBadge.setTextColor(Color.parseColor("#1565C0"))
+            } else if (node.depth == 1) {
+                holder.depthBadge.setBackgroundColor(Color.parseColor("#E8F5E9"))
+                holder.depthBadge.setTextColor(Color.parseColor("#2E7D32"))
+            } else {
+                holder.depthBadge.setBackgroundColor(Color.parseColor("#FFF3E0"))
+                holder.depthBadge.setTextColor(Color.parseColor("#E65100"))
+            }
+
+            // Path Location
+            if (node.pathBreadcrumbs.isNotEmpty()) {
+                holder.nodeLocation.text = "📍 ${node.pathBreadcrumbs.joinToString(" > ")}"
+                holder.nodeLocation.visibility = View.VISIBLE
+            } else if (!node.screenTitle.isNullOrBlank() && node.screenTitle != "Settings") {
+                holder.nodeLocation.text = "📍 ${node.screenTitle}"
+                holder.nodeLocation.visibility = View.VISIBLE
+            } else {
+                holder.nodeLocation.visibility = View.GONE
+            }
+
+            // Subtitle
+            if (!node.subtitle.isNullOrBlank()) {
+                holder.nodeSubtitle.text = node.subtitle
+                holder.nodeSubtitle.visibility = View.VISIBLE
+            } else {
+                holder.nodeSubtitle.visibility = View.GONE
+            }
         }
 
         override fun getItemCount() = nodes.size
