@@ -4,6 +4,8 @@
 **/build/
 local.properties
 *.iml
+*.env
+!.env.example
 
 # Python
 __pycache__/

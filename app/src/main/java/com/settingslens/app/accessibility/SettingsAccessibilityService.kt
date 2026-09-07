@@ -93,6 +93,23 @@ class SettingsAccessibilityService : AccessibilityService() {
         Log.w(TAG, "⚠️ [Accessibility Service Interrupted] Feedback interrupted by system or user interaction.")
     }
 
+    var currentPackage: String = ""
+        private set
+
+    fun getActivePackage(): String {
+        return try {
+            val rootPkg = rootInActiveWindow?.packageName?.toString()
+            if (!rootPkg.isNullOrBlank()) {
+                currentPackage = rootPkg
+                rootPkg
+            } else {
+                currentPackage
+            }
+        } catch (e: Exception) {
+            currentPackage
+        }
+    }
+
     // ─── Accessibility event handling ────────────────────────────────────
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
@@ -101,15 +118,68 @@ class SettingsAccessibilityService : AccessibilityService() {
         try {
             when (event.eventType) {
                 AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-                    val pkg = event.packageName?.toString() ?: "unknown"
+                    val pkg = event.packageName?.toString() ?: getActivePackage()
                     val cls = event.className?.toString() ?: "unknown"
                     Log.d(TAG, "🪟 [Window Transition] Screen state changed to $pkg ($cls)")
                     notifyWindowSettle()
+
+                    if (pkg.isEmpty() || pkg.contains("systemui") || pkg.contains("inputmethod")) {
+                        return
+                    }
+
+                    // Ignore events from our own floating overlay window (which has className android.widget.FrameLayout)
+                    if ((pkg == packageName || pkg.contains("settingslens")) && !cls.contains("Activity")) {
+                        Log.d(TAG, "🫧 [Ignoring Overlay Transition] $pkg ($cls)")
+                        return
+                    }
+
+                    currentPackage = pkg
+                    val isSettings = isSettingsPackage(pkg)
+                    com.settingslens.app.overlay.BubbleService.onPackageChanged(pkg, isSettings)
+                }
+
+                AccessibilityEvent.TYPE_WINDOWS_CHANGED -> {
+                    val pkg = getActivePackage()
+                    if (pkg.isNotEmpty() && !pkg.contains("systemui") && !pkg.contains("inputmethod")) {
+                        if (pkg == packageName || pkg.contains("settingslens")) {
+                            return
+                        }
+                        currentPackage = pkg
+                        val isSettings = isSettingsPackage(pkg)
+                        com.settingslens.app.overlay.BubbleService.onPackageChanged(pkg, isSettings)
+                    }
+                }
+
+                AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
+                    val pkg = event.packageName?.toString() ?: ""
+                    if (pkg.isNotEmpty() &&
+                        pkg != currentPackage &&
+                        !pkg.contains("systemui") &&
+                        !pkg.contains("inputmethod") &&
+                        !pkg.contains("settingslens") &&
+                        pkg != packageName
+                    ) {
+                        currentPackage = pkg
+                        val isSettings = isSettingsPackage(pkg)
+                        com.settingslens.app.overlay.BubbleService.onPackageChanged(pkg, isSettings)
+                    }
                 }
             }
         } catch (e: Exception) {
             Log.w(TAG, "⚠️ [Event Handler Recovered] Ignored benign error during window event processing: ${e.localizedMessage}")
         }
+    }
+
+    fun isSettingsPackage(packageName: String): Boolean {
+        if (packageName.isBlank() || packageName == this.packageName || packageName.contains("settingslens")) {
+            return false
+        }
+        return packageName == "com.android.settings" ||
+                packageName.startsWith("com.android.settings.") ||
+                packageName.contains("settings.intelligence") ||
+                packageName.contains("vivo.settings") ||
+                packageName.contains("com.samsung.android.settings") ||
+                (packageName.contains("settings") && !packageName.contains("settingslens"))
     }
 
     /**
@@ -200,6 +270,44 @@ class SettingsAccessibilityService : AccessibilityService() {
 
         if (!dispatched && cont.isActive) {
             cont.resume(false)
+        }
+    }
+
+    /**
+     * Dispatch an instant gesture tap at the specified screen coordinates.
+     */
+    suspend fun clickAt(x: Float, y: Float): Boolean {
+        if (x < 10f || y < 10f) {
+            Log.w(TAG, "⚠️ [Invalid Tap Coordinates] ($x, $y) out of screen bounds. Skipping tap.")
+            return false
+        }
+        return suspendCancellableCoroutine { cont ->
+            val path = android.graphics.Path().apply {
+                moveTo(x, y)
+            }
+            val gesture = try {
+                android.accessibilityservice.GestureDescription.Builder()
+                    .addStroke(android.accessibilityservice.GestureDescription.StrokeDescription(path, 0, 50))
+                    .build()
+            } catch (e: Exception) {
+                Log.w(TAG, "⚠️ [Gesture Build Failed] Could not create tap gesture at ($x, $y): ${e.localizedMessage}")
+                if (cont.isActive) cont.resume(false)
+                return@suspendCancellableCoroutine
+            }
+
+            val dispatched = dispatchGesture(gesture, object : GestureResultCallback() {
+                override fun onCompleted(gestureDescription: android.accessibilityservice.GestureDescription?) {
+                    if (cont.isActive) cont.resume(true)
+                }
+
+                override fun onCancelled(gestureDescription: android.accessibilityservice.GestureDescription?) {
+                    if (cont.isActive) cont.resume(false)
+                }
+            }, null)
+
+            if (!dispatched && cont.isActive) {
+                cont.resume(false)
+            }
         }
     }
 

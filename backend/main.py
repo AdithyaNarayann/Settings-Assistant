@@ -7,6 +7,9 @@ Endpoints:
 - GET  /health  — Health check
 """
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from models import SettingsGraph, ResolveRequest, ResolveResponse, GraphUploadResponse

@@ -119,6 +119,15 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         updateUI()
+        val service = SettingsAccessibilityService.instance
+        if (service == null || service.currentMode != SettingsAccessibilityService.Mode.CRAWLING) {
+            val graph = graphStorage.loadGraph()
+            if (graph != null && graph.nodeCount > 0 && allGraphNodes.isEmpty()) {
+                displayGraph(graph)
+                nodeCountText.text = "${graph.nodeCount} settings mapped • ${graph.screenSignatures.size} screens"
+                nodeCountText.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun checkFirstLaunch() {
@@ -153,20 +162,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Overlay bubble button
-        startBubbleButton.isEnabled = hasOverlay && (graphStorage.hasGraph())
+        startBubbleButton.isEnabled = true
         if (!hasOverlay) {
             startBubbleButton.text = "Enable Overlay to Start Bubble"
+        } else if (BubbleService.isRunning) {
+            startBubbleButton.text = "Open Settings (Bubble Active)"
         } else {
             startBubbleButton.text = "Start Floating Bubble"
         }
 
         // Load existing graph if available
         val graph = graphStorage.loadGraph()
-        if (graph != null) {
+        if (graph != null && graph.nodeCount > 0) {
+            val screens = if (graph.screenSignatures.isNotEmpty()) graph.screenSignatures.size else graph.nodes.map { it.screenSignature }.distinct().size
             val details = if (graph.graphId != null) {
-                "${graph.nodeCount} settings mapped across ${graph.screenSignatures.size} screens • Cloud ID: ${graph.graphId}"
+                "${graph.nodeCount} settings mapped across $screens screens • Cloud ID: ${graph.graphId}"
             } else {
-                "${graph.nodeCount} settings mapped across ${graph.screenSignatures.size} screens"
+                "${graph.nodeCount} settings mapped across $screens screens"
             }
             nodeCountText.text = details
             nodeCountText.visibility = View.VISIBLE
@@ -189,8 +201,18 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        BubbleService.start(this)
-        Toast.makeText(this, "Floating bubble active! Tap it anytime to speak.", Toast.LENGTH_SHORT).show()
+        if (!BubbleService.isRunning) {
+            BubbleService.start(this)
+        }
+        Toast.makeText(this, "Floating bubble active inside Settings! Opening Settings...", Toast.LENGTH_SHORT).show()
+        try {
+            val settingsIntent = Intent(Settings.ACTION_SETTINGS).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            startActivity(settingsIntent)
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not open Settings directly: ${e.localizedMessage}")
+        }
     }
 
     private fun startCrawl() {
@@ -216,7 +238,8 @@ class MainActivity : AppCompatActivity() {
             override fun onNodesUpdated(nodes: List<SettingsNode>) {
                 runOnUiThread {
                     displayNodes(nodes)
-                    nodeCountText.text = "${nodes.size} settings mapped so far..."
+                    val screens = nodes.map { it.screenSignature }.distinct().size
+                    nodeCountText.text = "${nodes.size} settings mapped across $screens screens"
                     nodeCountText.visibility = View.VISIBLE
                     // Continuously save to disk so anything already read is never lost!
                     val partialGraph = SettingsGraph(
@@ -225,7 +248,7 @@ class MainActivity : AppCompatActivity() {
                         androidVersion = android.os.Build.VERSION.SDK_INT,
                         nodes = nodes,
                         createdAt = java.time.Instant.now().toString(),
-                        screenSignatures = emptySet()
+                        screenSignatures = nodes.map { it.screenSignature }.toSet()
                     )
                     graphStorage.saveGraph(partialGraph)
                 }
@@ -374,7 +397,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        crawlJob?.cancel()
+        if (isFinishing) {
+            crawlJob?.cancel()
+        }
         super.onDestroy()
     }
 

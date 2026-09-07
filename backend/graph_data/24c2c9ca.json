@@ -1,0 +1,4573 @@
+{
+  "graphId": "24c2c9ca",
+  "deviceManufacturer": "vivo",
+  "deviceModel": "V2153",
+  "androidVersion": 34,
+  "nodes": [
+    {
+      "id": "node_1",
+      "label": "abha**2@gmail.com",
+      "subtitle": "Security & privacy, device management, Help & feedback",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "abha**2@gmail.com",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_2",
+      "label": "Network & internet",
+      "subtitle": "Wi-Fi, SIM card & mobile network, Hotspot & tethering",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Network & internet",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.WIRELESS_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_24",
+        "node_25",
+        "node_26",
+        "node_27",
+        "node_28",
+        "node_29",
+        "node_30",
+        "node_31"
+      ],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_3",
+      "label": "Bluetooth & devices",
+      "subtitle": "Smart Mirroring, Android Auto",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Bluetooth & devices",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.BLUETOOTH_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_55",
+        "node_56",
+        "node_57",
+        "node_58",
+        "node_59",
+        "node_60",
+        "node_61",
+        "node_62",
+        "node_63"
+      ],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_4",
+      "label": "Display & brightness",
+      "subtitle": "Eye Protection, Dark theme, status bar",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Display & brightness",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.DISPLAY_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_68",
+        "node_69",
+        "node_70",
+        "node_71",
+        "node_72",
+        "node_73",
+        "node_74",
+        "node_75",
+        "node_76"
+      ],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_5",
+      "label": "Lock screen & wallpaper",
+      "subtitle": "Always On Display, themes, home settings",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Lock screen & wallpaper",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_107",
+        "node_108",
+        "node_109",
+        "node_110",
+        "node_111"
+      ],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_6",
+      "label": "Dynamic effects",
+      "subtitle": "Personalized animation effects",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Dynamic effects",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_112",
+        "node_113",
+        "node_114",
+        "node_115",
+        "node_116",
+        "node_117"
+      ],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_7",
+      "label": "Sounds & vibration",
+      "subtitle": "Volume, Do Not Disturb mode",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Sounds & vibration",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.SOUND_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_122",
+        "node_123",
+        "node_124",
+        "node_125",
+        "node_126",
+        "node_127",
+        "node_128",
+        "node_129",
+        "node_130"
+      ],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_8",
+      "label": "Apps",
+      "subtitle": "Recent apps, default apps",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Apps",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.APPLICATION_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_170",
+        "node_171",
+        "node_172",
+        "node_173",
+        "node_174",
+        "node_175",
+        "node_176",
+        "node_177",
+        "node_178",
+        "node_179",
+        "node_180",
+        "node_181",
+        "node_182",
+        "node_183",
+        "node_184",
+        "node_185"
+      ],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_9",
+      "label": "Notifications",
+      "subtitle": "Notification history, conversations",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Notifications",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.APP_NOTIFICATION_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_10",
+      "label": "System update",
+      "subtitle": "Updated to PD2201F_EX_A_14.2.14.2.W30",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "System update",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_11",
+      "label": "Battery",
+      "subtitle": "100%",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Battery",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.intent.action.POWER_USAGE_SUMMARY",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_12",
+      "label": "RAM & storage space",
+      "subtitle": "73% used - 34.93 GB free",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "RAM & storage space",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.INTERNAL_STORAGE_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_13",
+      "label": "Security",
+      "subtitle": "Password, fingerprint, face",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Security",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.SECURITY_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_14",
+      "label": "Privacy",
+      "subtitle": "Permissions, personal data",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Privacy",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_15",
+      "label": "Location",
+      "subtitle": "On - 34 apps have access to location",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Location",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.LOCATION_SOURCE_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_16",
+      "label": "Ultra Game Mode",
+      "subtitle": "Game Assistant, Game Do Not Disturb, Esports Mode",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Ultra Game Mode",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_17",
+      "label": "Shortcuts & accessibility",
+      "subtitle": "S-capture, Smart Motion, Accessibility",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Shortcuts & accessibility",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": "android.settings.ACCESSIBILITY_SETTINGS",
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_18",
+      "label": "Safety & emergency",
+      "subtitle": "Emergency SOS, medical info, alerts",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Safety & emergency",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_19",
+      "label": "Digital Wellbeing & parental controls",
+      "subtitle": "Screen time, app timers, bedtime schedules",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Digital Wellbeing & parental controls",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_20",
+      "label": "Google",
+      "subtitle": "Services & preferences",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Google",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_21",
+      "label": "Accounts",
+      "subtitle": "vivo account, other accounts",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Accounts",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_22",
+      "label": "System",
+      "subtitle": "System navigation, languages & input, backup",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "System",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_23",
+      "label": "About phone",
+      "subtitle": "freeze",
+      "screenSignature": "fe9233edaf93a98c",
+      "screenTitle": "Sounds & vibration",
+      "parentId": null,
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "About phone",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    },
+    {
+      "id": "node_24",
+      "label": "Wi-Fi",
+      "subtitle": "Not connected",
+      "screenSignature": "35d6b47cb0f3c860",
+      "screenTitle": "Network & internet",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Wi-Fi",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet"
+      ]
+    },
+    {
+      "id": "node_25",
+      "label": "SIM card & mobile network",
+      "subtitle": null,
+      "screenSignature": "35d6b47cb0f3c860",
+      "screenTitle": "Network & internet",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "SIM card & mobile network",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_32",
+        "node_33",
+        "node_34",
+        "node_35",
+        "node_36",
+        "node_37",
+        "node_38"
+      ],
+      "pathBreadcrumbs": [
+        "Network & internet"
+      ]
+    },
+    {
+      "id": "node_26",
+      "label": "Hotspot & tethering",
+      "subtitle": "Disable",
+      "screenSignature": "35d6b47cb0f3c860",
+      "screenTitle": "Network & internet",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Hotspot & tethering",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_39",
+        "node_40",
+        "node_41",
+        "node_42"
+      ],
+      "pathBreadcrumbs": [
+        "Network & internet"
+      ]
+    },
+    {
+      "id": "node_27",
+      "label": "Network management",
+      "subtitle": null,
+      "screenSignature": "35d6b47cb0f3c860",
+      "screenTitle": "Network & internet",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Network management",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet"
+      ]
+    },
+    {
+      "id": "node_28",
+      "label": "Data Saver",
+      "subtitle": "Off",
+      "screenSignature": "35d6b47cb0f3c860",
+      "screenTitle": "Network & internet",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Data Saver",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_43",
+        "node_44"
+      ],
+      "pathBreadcrumbs": [
+        "Network & internet"
+      ]
+    },
+    {
+      "id": "node_29",
+      "label": "VPN",
+      "subtitle": null,
+      "screenSignature": "35d6b47cb0f3c860",
+      "screenTitle": "Network & internet",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "VPN",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_45",
+        "node_46",
+        "node_47",
+        "node_48"
+      ],
+      "pathBreadcrumbs": [
+        "Network & internet"
+      ]
+    },
+    {
+      "id": "node_30",
+      "label": "Private DNS",
+      "subtitle": "Couldn't connect",
+      "screenSignature": "35d6b47cb0f3c860",
+      "screenTitle": "Network & internet",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Private DNS",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_49",
+        "node_50",
+        "node_51",
+        "node_52",
+        "node_53",
+        "node_54"
+      ],
+      "pathBreadcrumbs": [
+        "Network & internet"
+      ]
+    },
+    {
+      "id": "node_31",
+      "label": "Looking for other settings?",
+      "subtitle": "Show data information",
+      "screenSignature": "35d6b47cb0f3c860",
+      "screenTitle": "Network & internet",
+      "parentId": "node_2",
+      "selector": {
+        "resourceId": "com.android.settings:id/recommend_recycler_view_label",
+        "text": "Looking for other settings?",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.FrameLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet"
+      ]
+    },
+    {
+      "id": "node_32",
+      "label": "Mobile data",
+      "subtitle": "Access data using mobile network",
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "screenTitle": "SIM card & mobile network",
+      "parentId": "node_25",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Mobile data",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "SIM card & mobile network"
+      ]
+    },
+    {
+      "id": "node_33",
+      "label": "Preferred SIM card",
+      "subtitle": null,
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "screenTitle": "SIM card & mobile network",
+      "parentId": "node_25",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Preferred SIM card",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "SIM card & mobile network"
+      ]
+    },
+    {
+      "id": "node_34",
+      "label": "Mobile data",
+      "subtitle": "Selection required",
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "screenTitle": "SIM card & mobile network",
+      "parentId": "node_25",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Mobile data",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "SIM card & mobile network"
+      ]
+    },
+    {
+      "id": "node_35",
+      "label": "Calls",
+      "subtitle": "Ask every time",
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "screenTitle": "SIM card & mobile network",
+      "parentId": "node_25",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Calls",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "SIM card & mobile network"
+      ]
+    },
+    {
+      "id": "node_36",
+      "label": "SMS",
+      "subtitle": "Selection required",
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "screenTitle": "SIM card & mobile network",
+      "parentId": "node_25",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "SMS",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "SIM card & mobile network"
+      ]
+    },
+    {
+      "id": "node_37",
+      "label": "SIM card info and settings",
+      "subtitle": null,
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "screenTitle": "SIM card & mobile network",
+      "parentId": "node_25",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "SIM card info and settings",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "SIM card & mobile network"
+      ]
+    },
+    {
+      "id": "node_38",
+      "label": "No SIM",
+      "subtitle": null,
+      "screenSignature": "6dca0c8b8aa6c78f",
+      "screenTitle": "SIM card & mobile network",
+      "parentId": "node_25",
+      "selector": {
+        "resourceId": "com.android.settings:id/tv_middle",
+        "text": "No SIM",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.RelativeLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "SIM card & mobile network"
+      ]
+    },
+    {
+      "id": "node_39",
+      "label": "Allow other devices to connect to the internet over your Wi-Fi or mobile network. You can also share the network with nearby devices by creating a hotspot.",
+      "subtitle": null,
+      "screenSignature": "79c3e56457c1cc00",
+      "screenTitle": "Hotspot & tethering",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Allow other devices to connect to the internet over your Wi-Fi or mobile network. You can also share the network with nearby devices by creating a hotspot.",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Hotspot & tethering"
+      ]
+    },
+    {
+      "id": "node_40",
+      "label": "Wi‑Fi hotspot",
+      "subtitle": "Not sharing internet or content with other devices",
+      "screenSignature": "79c3e56457c1cc00",
+      "screenTitle": "Hotspot & tethering",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Wi‑Fi hotspot",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Hotspot & tethering"
+      ]
+    },
+    {
+      "id": "node_41",
+      "label": "Bluetooth tethering",
+      "subtitle": "Share phone’s internet connection via Bluetooth",
+      "screenSignature": "79c3e56457c1cc00",
+      "screenTitle": "Hotspot & tethering",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Bluetooth tethering",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Hotspot & tethering"
+      ]
+    },
+    {
+      "id": "node_42",
+      "label": "Ethernet tethering",
+      "subtitle": "Share phone’s internet connection via Ethernet",
+      "screenSignature": "79c3e56457c1cc00",
+      "screenTitle": "Hotspot & tethering",
+      "parentId": "node_26",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Ethernet tethering",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Hotspot & tethering"
+      ]
+    },
+    {
+      "id": "node_43",
+      "label": "Unrestricted data",
+      "subtitle": null,
+      "screenSignature": "2f6eed8f5793db3e",
+      "screenTitle": "Data Saver",
+      "parentId": "node_28",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Unrestricted data",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Data Saver"
+      ]
+    },
+    {
+      "id": "node_44",
+      "label": "To help reduce data usage, Data Saver prevents some apps from sending or receiving data in the background. The apps you're currently using can access data, but may do so less frequently. This may mean, for example, that images don't display until you tap them.",
+      "subtitle": null,
+      "screenSignature": "2f6eed8f5793db3e",
+      "screenTitle": "Data Saver",
+      "parentId": "node_28",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "To help reduce data usage, Data Saver prevents some apps from sending or receiving data in the background. The apps you're currently using can access data, but may do so less frequently. This may mean, for example, that images don't display until you tap them.",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Data Saver"
+      ]
+    },
+    {
+      "id": "node_45",
+      "label": "Kaspersky",
+      "subtitle": null,
+      "screenSignature": "1cd4623604c22976",
+      "screenTitle": "VPN",
+      "parentId": "node_29",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Kaspersky",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "VPN"
+      ]
+    },
+    {
+      "id": "node_46",
+      "label": "Orbot",
+      "subtitle": null,
+      "screenSignature": "1cd4623604c22976",
+      "screenTitle": "VPN",
+      "parentId": "node_29",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Orbot",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "VPN"
+      ]
+    },
+    {
+      "id": "node_47",
+      "label": "Proton VPN",
+      "subtitle": null,
+      "screenSignature": "1cd4623604c22976",
+      "screenTitle": "VPN",
+      "parentId": "node_29",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Proton VPN",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "VPN"
+      ]
+    },
+    {
+      "id": "node_48",
+      "label": "Turbo VPN",
+      "subtitle": null,
+      "screenSignature": "1cd4623604c22976",
+      "screenTitle": "VPN",
+      "parentId": "node_29",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Turbo VPN",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "VPN"
+      ]
+    },
+    {
+      "id": "node_49",
+      "label": "Select Private DNS Mode",
+      "subtitle": null,
+      "screenSignature": "40aef9df47960fd7",
+      "screenTitle": "Private DNS",
+      "parentId": "node_30",
+      "selector": {
+        "resourceId": "com.android.settings:id/alertTitle",
+        "text": "Select Private DNS Mode",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.TextView",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Private DNS"
+      ]
+    },
+    {
+      "id": "node_50",
+      "label": "Off",
+      "subtitle": null,
+      "screenSignature": "40aef9df47960fd7",
+      "screenTitle": "Private DNS",
+      "parentId": "node_30",
+      "selector": {
+        "resourceId": "com.android.settings:id/private_dns_mode_off",
+        "text": "Off",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.RadioButton",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Private DNS"
+      ]
+    },
+    {
+      "id": "node_51",
+      "label": "Automatic",
+      "subtitle": null,
+      "screenSignature": "40aef9df47960fd7",
+      "screenTitle": "Private DNS",
+      "parentId": "node_30",
+      "selector": {
+        "resourceId": "com.android.settings:id/private_dns_mode_opportunistic",
+        "text": "Automatic",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.RadioButton",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Private DNS"
+      ]
+    },
+    {
+      "id": "node_52",
+      "label": "Private DNS provider hostname",
+      "subtitle": null,
+      "screenSignature": "40aef9df47960fd7",
+      "screenTitle": "Private DNS",
+      "parentId": "node_30",
+      "selector": {
+        "resourceId": "com.android.settings:id/private_dns_mode_provider",
+        "text": "Private DNS provider hostname",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.RadioButton",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Private DNS"
+      ]
+    },
+    {
+      "id": "node_53",
+      "label": "Cancel",
+      "subtitle": null,
+      "screenSignature": "40aef9df47960fd7",
+      "screenTitle": "Private DNS",
+      "parentId": "node_30",
+      "selector": {
+        "resourceId": "android:id/button2",
+        "text": "Cancel",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.Button",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Private DNS"
+      ]
+    },
+    {
+      "id": "node_54",
+      "label": "Save",
+      "subtitle": null,
+      "screenSignature": "40aef9df47960fd7",
+      "screenTitle": "Private DNS",
+      "parentId": "node_30",
+      "selector": {
+        "resourceId": "android:id/button1",
+        "text": "Save",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.Button",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Private DNS"
+      ]
+    },
+    {
+      "id": "node_55",
+      "label": "Bluetooth",
+      "subtitle": null,
+      "screenSignature": "819480c898c8a032",
+      "screenTitle": "Bluetooth & devices",
+      "parentId": "node_3",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Bluetooth",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices"
+      ]
+    },
+    {
+      "id": "node_56",
+      "label": "Cross-device services",
+      "subtitle": null,
+      "screenSignature": "819480c898c8a032",
+      "screenTitle": "Bluetooth & devices",
+      "parentId": "node_3",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Cross-device services",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices"
+      ]
+    },
+    {
+      "id": "node_57",
+      "label": "vivoshare",
+      "subtitle": null,
+      "screenSignature": "819480c898c8a032",
+      "screenTitle": "Bluetooth & devices",
+      "parentId": "node_3",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "vivoshare",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices"
+      ]
+    },
+    {
+      "id": "node_58",
+      "label": "Smart Mirroring",
+      "subtitle": "Mirror your phone on large-screen devices such as TVs.",
+      "screenSignature": "819480c898c8a032",
+      "screenTitle": "Bluetooth & devices",
+      "parentId": "node_3",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Smart Mirroring",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices"
+      ]
+    },
+    {
+      "id": "node_59",
+      "label": "OTG",
+      "subtitle": "When enabled, the phone can be connected to a flash storage drive or charge another device. The OTG function will be disabled automatically if not used for 5 minutes.",
+      "screenSignature": "819480c898c8a032",
+      "screenTitle": "Bluetooth & devices",
+      "parentId": "node_3",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "OTG",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices"
+      ]
+    },
+    {
+      "id": "node_60",
+      "label": "Printing",
+      "subtitle": "1 print service on",
+      "screenSignature": "819480c898c8a032",
+      "screenTitle": "Bluetooth & devices",
+      "parentId": "node_3",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Printing",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_64",
+        "node_65",
+        "node_66"
+      ],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices"
+      ]
+    },
+    {
+      "id": "node_61",
+      "label": "Chromebook",
+      "subtitle": "Your phone is not linked to a Chromebook",
+      "screenSignature": "819480c898c8a032",
+      "screenTitle": "Bluetooth & devices",
+      "parentId": "node_3",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Chromebook",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices"
+      ]
+    },
+    {
+      "id": "node_62",
+      "label": "Quick Share",
+      "subtitle": "Share files with nearby devices",
+      "screenSignature": "819480c898c8a032",
+      "screenTitle": "Bluetooth & devices",
+      "parentId": "node_3",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Quick Share",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices"
+      ]
+    },
+    {
+      "id": "node_63",
+      "label": "Android Auto",
+      "subtitle": "Use apps on your vehicle screen",
+      "screenSignature": "819480c898c8a032",
+      "screenTitle": "Bluetooth & devices",
+      "parentId": "node_3",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Android Auto",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices"
+      ]
+    },
+    {
+      "id": "node_64",
+      "label": "Print services",
+      "subtitle": null,
+      "screenSignature": "2b30f90c4c4c1c3d",
+      "screenTitle": "Printing",
+      "parentId": "node_60",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Print services",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices",
+        "Printing"
+      ]
+    },
+    {
+      "id": "node_65",
+      "label": "Default Print Service",
+      "subtitle": "On",
+      "screenSignature": "2b30f90c4c4c1c3d",
+      "screenTitle": "Printing",
+      "parentId": "node_60",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Default Print Service",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_67"
+      ],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices",
+        "Printing"
+      ]
+    },
+    {
+      "id": "node_66",
+      "label": "Add service",
+      "subtitle": null,
+      "screenSignature": "2b30f90c4c4c1c3d",
+      "screenTitle": "Printing",
+      "parentId": "node_60",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Add service",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices",
+        "Printing"
+      ]
+    },
+    {
+      "id": "node_67",
+      "label": "Searching for printers",
+      "subtitle": null,
+      "screenSignature": "7da83054da53ee7a",
+      "screenTitle": "Default Print Service",
+      "parentId": "node_65",
+      "selector": {
+        "resourceId": null,
+        "text": "Searching for printers",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.TextView",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Bluetooth & devices",
+        "Printing",
+        "Default Print Service"
+      ]
+    },
+    {
+      "id": "node_68",
+      "label": "Brightness",
+      "subtitle": null,
+      "screenSignature": "66a2211147a7cf09",
+      "screenTitle": "Display & brightness",
+      "parentId": "node_4",
+      "selector": {
+        "resourceId": "com.android.settings:id/title",
+        "text": "Brightness",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.RelativeLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness"
+      ]
+    },
+    {
+      "id": "node_69",
+      "label": "Eye Protection",
+      "subtitle": "Will never turn off automatically",
+      "screenSignature": "66a2211147a7cf09",
+      "screenTitle": "Display & brightness",
+      "parentId": "node_4",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Eye Protection",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness"
+      ]
+    },
+    {
+      "id": "node_70",
+      "label": "Dark theme",
+      "subtitle": "Will never turn off automatically",
+      "screenSignature": "66a2211147a7cf09",
+      "screenTitle": "Display & brightness",
+      "parentId": "node_4",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Dark theme",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness"
+      ]
+    },
+    {
+      "id": "node_71",
+      "label": "Screen timeout",
+      "subtitle": "After 10 minutes of inactivity",
+      "screenSignature": "66a2211147a7cf09",
+      "screenTitle": "Display & brightness",
+      "parentId": "node_4",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Screen timeout",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_77",
+        "node_78",
+        "node_79",
+        "node_80",
+        "node_81",
+        "node_82"
+      ],
+      "pathBreadcrumbs": [
+        "Display & brightness"
+      ]
+    },
+    {
+      "id": "node_72",
+      "label": "Auto-rotate screen",
+      "subtitle": null,
+      "screenSignature": "66a2211147a7cf09",
+      "screenTitle": "Display & brightness",
+      "parentId": "node_4",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Auto-rotate screen",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness"
+      ]
+    },
+    {
+      "id": "node_73",
+      "label": "Screen colors",
+      "subtitle": null,
+      "screenSignature": "66a2211147a7cf09",
+      "screenTitle": "Display & brightness",
+      "parentId": "node_4",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Screen colors",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_83",
+        "node_84",
+        "node_85",
+        "node_86",
+        "node_87",
+        "node_88"
+      ],
+      "pathBreadcrumbs": [
+        "Display & brightness"
+      ]
+    },
+    {
+      "id": "node_74",
+      "label": "Font & display size",
+      "subtitle": null,
+      "screenSignature": "66a2211147a7cf09",
+      "screenTitle": "Display & brightness",
+      "parentId": "node_4",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Font & display size",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_89",
+        "node_90",
+        "node_91",
+        "node_92",
+        "node_93"
+      ],
+      "pathBreadcrumbs": [
+        "Display & brightness"
+      ]
+    },
+    {
+      "id": "node_75",
+      "label": "Font style",
+      "subtitle": null,
+      "screenSignature": "66a2211147a7cf09",
+      "screenTitle": "Display & brightness",
+      "parentId": "node_4",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Font style",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness"
+      ]
+    },
+    {
+      "id": "node_76",
+      "label": "Status bar",
+      "subtitle": null,
+      "screenSignature": "66a2211147a7cf09",
+      "screenTitle": "Display & brightness",
+      "parentId": "node_4",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Status bar",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_94",
+        "node_95",
+        "node_96"
+      ],
+      "pathBreadcrumbs": [
+        "Display & brightness"
+      ]
+    },
+    {
+      "id": "node_77",
+      "label": "15 seconds",
+      "subtitle": null,
+      "screenSignature": "5a751bb1460bf5b7",
+      "screenTitle": "Screen timeout",
+      "parentId": "node_71",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "15 seconds",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen timeout"
+      ]
+    },
+    {
+      "id": "node_78",
+      "label": "30 seconds",
+      "subtitle": null,
+      "screenSignature": "5a751bb1460bf5b7",
+      "screenTitle": "Screen timeout",
+      "parentId": "node_71",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "30 seconds",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen timeout"
+      ]
+    },
+    {
+      "id": "node_79",
+      "label": "1 minute",
+      "subtitle": null,
+      "screenSignature": "5a751bb1460bf5b7",
+      "screenTitle": "Screen timeout",
+      "parentId": "node_71",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "1 minute",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen timeout"
+      ]
+    },
+    {
+      "id": "node_80",
+      "label": "2 minutes",
+      "subtitle": null,
+      "screenSignature": "5a751bb1460bf5b7",
+      "screenTitle": "Screen timeout",
+      "parentId": "node_71",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "2 minutes",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen timeout"
+      ]
+    },
+    {
+      "id": "node_81",
+      "label": "5 minutes",
+      "subtitle": null,
+      "screenSignature": "5a751bb1460bf5b7",
+      "screenTitle": "Screen timeout",
+      "parentId": "node_71",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "5 minutes",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen timeout"
+      ]
+    },
+    {
+      "id": "node_82",
+      "label": "10 minutes",
+      "subtitle": null,
+      "screenSignature": "5a751bb1460bf5b7",
+      "screenTitle": "Screen timeout",
+      "parentId": "node_71",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "10 minutes",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen timeout"
+      ]
+    },
+    {
+      "id": "node_83",
+      "label": "Color mode",
+      "subtitle": null,
+      "screenSignature": "c8ffb00c3f697124",
+      "screenTitle": "Screen colors",
+      "parentId": "node_73",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Color mode",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen colors"
+      ]
+    },
+    {
+      "id": "node_84",
+      "label": "Standard (default)",
+      "subtitle": null,
+      "screenSignature": "c8ffb00c3f697124",
+      "screenTitle": "Screen colors",
+      "parentId": "node_73",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Standard (default)",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen colors"
+      ]
+    },
+    {
+      "id": "node_85",
+      "label": "Professional",
+      "subtitle": null,
+      "screenSignature": "c8ffb00c3f697124",
+      "screenTitle": "Screen colors",
+      "parentId": "node_73",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Professional",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen colors"
+      ]
+    },
+    {
+      "id": "node_86",
+      "label": "Bright",
+      "subtitle": null,
+      "screenSignature": "c8ffb00c3f697124",
+      "screenTitle": "Screen colors",
+      "parentId": "node_73",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Bright",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen colors"
+      ]
+    },
+    {
+      "id": "node_87",
+      "label": "Color temperature adjustment",
+      "subtitle": "Cooler",
+      "screenSignature": "c8ffb00c3f697124",
+      "screenTitle": "Screen colors",
+      "parentId": "node_73",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Color temperature adjustment",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen colors"
+      ]
+    },
+    {
+      "id": "node_88",
+      "label": "When \"Eye Protection\" is turned on, \"Color temperature adjustment\" will be unavailable.",
+      "subtitle": null,
+      "screenSignature": "c8ffb00c3f697124",
+      "screenTitle": "Screen colors",
+      "parentId": "node_73",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "When \"Eye Protection\" is turned on, \"Color temperature adjustment\" will be unavailable.",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Screen colors"
+      ]
+    },
+    {
+      "id": "node_89",
+      "label": "Preview",
+      "subtitle": "Any weekend plans?",
+      "screenSignature": "7374ad4033ca0c04",
+      "screenTitle": "Display size and text",
+      "parentId": "node_74",
+      "selector": {
+        "resourceId": "com.android.settings:id/preview_label",
+        "text": "Preview",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.FrameLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Font & display size"
+      ]
+    },
+    {
+      "id": "node_90",
+      "label": "Font size",
+      "subtitle": "Make text bigger or smaller",
+      "screenSignature": "7374ad4033ca0c04",
+      "screenTitle": "Display size and text",
+      "parentId": "node_74",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Font size",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.RelativeLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Font & display size"
+      ]
+    },
+    {
+      "id": "node_91",
+      "label": "Display size",
+      "subtitle": "Make everything bigger or smaller",
+      "screenSignature": "7374ad4033ca0c04",
+      "screenTitle": "Display size and text",
+      "parentId": "node_74",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Display size",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.RelativeLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Font & display size"
+      ]
+    },
+    {
+      "id": "node_92",
+      "label": "Bold text",
+      "subtitle": null,
+      "screenSignature": "7374ad4033ca0c04",
+      "screenTitle": "Display size and text",
+      "parentId": "node_74",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Bold text",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Font & display size"
+      ]
+    },
+    {
+      "id": "node_93",
+      "label": "High contrast text",
+      "subtitle": "Change text color to black or white. Maximizes contrast with the background.",
+      "screenSignature": "7374ad4033ca0c04",
+      "screenTitle": "Display size and text",
+      "parentId": "node_74",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "High contrast text",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Font & display size"
+      ]
+    },
+    {
+      "id": "node_94",
+      "label": "Notification method",
+      "subtitle": "Icons",
+      "screenSignature": "d134d0592d148379",
+      "screenTitle": "Status bar",
+      "parentId": "node_76",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Notification method",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_97",
+        "node_98",
+        "node_99"
+      ],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar"
+      ]
+    },
+    {
+      "id": "node_95",
+      "label": "Show real-time network speed",
+      "subtitle": null,
+      "screenSignature": "d134d0592d148379",
+      "screenTitle": "Status bar",
+      "parentId": "node_76",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Show real-time network speed",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar"
+      ]
+    },
+    {
+      "id": "node_96",
+      "label": "Battery style and percentage",
+      "subtitle": null,
+      "screenSignature": "d134d0592d148379",
+      "screenTitle": "Status bar",
+      "parentId": "node_76",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Battery style and percentage",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_100",
+        "node_101",
+        "node_102",
+        "node_103",
+        "node_104",
+        "node_105",
+        "node_106"
+      ],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar"
+      ]
+    },
+    {
+      "id": "node_97",
+      "label": "Icons",
+      "subtitle": null,
+      "screenSignature": "67dae7a17952d672",
+      "screenTitle": "Notification method",
+      "parentId": "node_94",
+      "selector": {
+        "resourceId": "com.android.settings:id/text1",
+        "text": "Icons",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Notification method"
+      ]
+    },
+    {
+      "id": "node_98",
+      "label": "Numbers",
+      "subtitle": null,
+      "screenSignature": "67dae7a17952d672",
+      "screenTitle": "Notification method",
+      "parentId": "node_94",
+      "selector": {
+        "resourceId": "com.android.settings:id/text1",
+        "text": "Numbers",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Notification method"
+      ]
+    },
+    {
+      "id": "node_99",
+      "label": "None",
+      "subtitle": null,
+      "screenSignature": "67dae7a17952d672",
+      "screenTitle": "Notification method",
+      "parentId": "node_94",
+      "selector": {
+        "resourceId": "com.android.settings:id/text1",
+        "text": "None",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Notification method"
+      ]
+    },
+    {
+      "id": "node_100",
+      "label": "Battery style",
+      "subtitle": null,
+      "screenSignature": "23011253613ad045",
+      "screenTitle": "Battery style and percentage",
+      "parentId": "node_96",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Battery style",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Battery style and percentage"
+      ]
+    },
+    {
+      "id": "node_101",
+      "label": "Vertical",
+      "subtitle": null,
+      "screenSignature": "23011253613ad045",
+      "screenTitle": "Battery style and percentage",
+      "parentId": "node_96",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Vertical",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Battery style and percentage"
+      ]
+    },
+    {
+      "id": "node_102",
+      "label": "Horizontal",
+      "subtitle": null,
+      "screenSignature": "23011253613ad045",
+      "screenTitle": "Battery style and percentage",
+      "parentId": "node_96",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Horizontal",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Battery style and percentage"
+      ]
+    },
+    {
+      "id": "node_103",
+      "label": "Circle",
+      "subtitle": null,
+      "screenSignature": "23011253613ad045",
+      "screenTitle": "Battery style and percentage",
+      "parentId": "node_96",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Circle",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Battery style and percentage"
+      ]
+    },
+    {
+      "id": "node_104",
+      "label": "Battery percentage",
+      "subtitle": null,
+      "screenSignature": "23011253613ad045",
+      "screenTitle": "Battery style and percentage",
+      "parentId": "node_96",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Battery percentage",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Battery style and percentage"
+      ]
+    },
+    {
+      "id": "node_105",
+      "label": "Do not display",
+      "subtitle": null,
+      "screenSignature": "23011253613ad045",
+      "screenTitle": "Battery style and percentage",
+      "parentId": "node_96",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Do not display",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Battery style and percentage"
+      ]
+    },
+    {
+      "id": "node_106",
+      "label": "Display outside battery",
+      "subtitle": null,
+      "screenSignature": "23011253613ad045",
+      "screenTitle": "Battery style and percentage",
+      "parentId": "node_96",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Display outside battery",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Display & brightness",
+        "Status bar",
+        "Battery style and percentage"
+      ]
+    },
+    {
+      "id": "node_107",
+      "label": "Wallpaper",
+      "subtitle": "Theme",
+      "screenSignature": "ae9f0ff233f4354a",
+      "screenTitle": "Lock screen & wallpaper",
+      "parentId": "node_5",
+      "selector": {
+        "resourceId": "com.android.settings:id/text",
+        "text": "Wallpaper",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.view.ViewGroup",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Lock screen & wallpaper"
+      ]
+    },
+    {
+      "id": "node_108",
+      "label": "Lock screen settings",
+      "subtitle": null,
+      "screenSignature": "ae9f0ff233f4354a",
+      "screenTitle": "Lock screen & wallpaper",
+      "parentId": "node_5",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Lock screen settings",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Lock screen & wallpaper"
+      ]
+    },
+    {
+      "id": "node_109",
+      "label": "Home settings",
+      "subtitle": null,
+      "screenSignature": "ae9f0ff233f4354a",
+      "screenTitle": "Lock screen & wallpaper",
+      "parentId": "node_5",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Home settings",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Lock screen & wallpaper"
+      ]
+    },
+    {
+      "id": "node_110",
+      "label": "Simple Mode",
+      "subtitle": null,
+      "screenSignature": "ae9f0ff233f4354a",
+      "screenTitle": "Lock screen & wallpaper",
+      "parentId": "node_5",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Simple Mode",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Lock screen & wallpaper"
+      ]
+    },
+    {
+      "id": "node_111",
+      "label": "Looking for other settings?",
+      "subtitle": "Smart Screen On/Off",
+      "screenSignature": "ae9f0ff233f4354a",
+      "screenTitle": "Lock screen & wallpaper",
+      "parentId": "node_5",
+      "selector": {
+        "resourceId": "com.android.settings:id/recommend_recycler_view_label",
+        "text": "Looking for other settings?",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.FrameLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Lock screen & wallpaper"
+      ]
+    },
+    {
+      "id": "node_112",
+      "label": "Enhance dynamic effects",
+      "subtitle": null,
+      "screenSignature": "a51df397b74902df",
+      "screenTitle": "Dynamic effects",
+      "parentId": "node_6",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Enhance dynamic effects",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_118",
+        "node_119",
+        "node_120",
+        "node_121"
+      ],
+      "pathBreadcrumbs": [
+        "Dynamic effects"
+      ]
+    },
+    {
+      "id": "node_113",
+      "label": "Home screen entering animation after unlock",
+      "subtitle": null,
+      "screenSignature": "a51df397b74902df",
+      "screenTitle": "Dynamic effects",
+      "parentId": "node_6",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Home screen entering animation after unlock",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Dynamic effects"
+      ]
+    },
+    {
+      "id": "node_114",
+      "label": "Fingerprint icon animation",
+      "subtitle": null,
+      "screenSignature": "a51df397b74902df",
+      "screenTitle": "Dynamic effects",
+      "parentId": "node_6",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Fingerprint icon animation",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Dynamic effects"
+      ]
+    },
+    {
+      "id": "node_115",
+      "label": "Fingerprint recognition animation",
+      "subtitle": null,
+      "screenSignature": "a51df397b74902df",
+      "screenTitle": "Dynamic effects",
+      "parentId": "node_6",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Fingerprint recognition animation",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Dynamic effects"
+      ]
+    },
+    {
+      "id": "node_116",
+      "label": "Face recognition animation",
+      "subtitle": null,
+      "screenSignature": "a51df397b74902df",
+      "screenTitle": "Dynamic effects",
+      "parentId": "node_6",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Face recognition animation",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Dynamic effects"
+      ]
+    },
+    {
+      "id": "node_117",
+      "label": "Charging animation",
+      "subtitle": null,
+      "screenSignature": "a51df397b74902df",
+      "screenTitle": "Dynamic effects",
+      "parentId": "node_6",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Charging animation",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Dynamic effects"
+      ]
+    },
+    {
+      "id": "node_118",
+      "label": "Interface dynamic effects",
+      "subtitle": "The animation effects and display effects of interfaces will be enhanced in some scenarios",
+      "screenSignature": "c14682f7d928dfd0",
+      "screenTitle": "Enhance dynamic effects",
+      "parentId": "node_112",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Interface dynamic effects",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Dynamic effects",
+        "Enhance dynamic effects"
+      ]
+    },
+    {
+      "id": "node_119",
+      "label": "Other enhancement scenarios",
+      "subtitle": null,
+      "screenSignature": "c14682f7d928dfd0",
+      "screenTitle": "Enhance dynamic effects",
+      "parentId": "node_112",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Other enhancement scenarios",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Dynamic effects",
+        "Enhance dynamic effects"
+      ]
+    },
+    {
+      "id": "node_120",
+      "label": "Weather backgrounds",
+      "subtitle": null,
+      "screenSignature": "c14682f7d928dfd0",
+      "screenTitle": "Enhance dynamic effects",
+      "parentId": "node_112",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Weather backgrounds",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Dynamic effects",
+        "Enhance dynamic effects"
+      ]
+    },
+    {
+      "id": "node_121",
+      "label": "Nano Music Player",
+      "subtitle": null,
+      "screenSignature": "c14682f7d928dfd0",
+      "screenTitle": "Enhance dynamic effects",
+      "parentId": "node_112",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Nano Music Player",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Dynamic effects",
+        "Enhance dynamic effects"
+      ]
+    },
+    {
+      "id": "node_122",
+      "label": "Media volume",
+      "subtitle": null,
+      "screenSignature": "fb4b76617abb0094",
+      "screenTitle": "Sounds & vibration",
+      "parentId": "node_7",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Media volume",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration"
+      ]
+    },
+    {
+      "id": "node_123",
+      "label": "Ring volume",
+      "subtitle": null,
+      "screenSignature": "fb4b76617abb0094",
+      "screenTitle": "Sounds & vibration",
+      "parentId": "node_7",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Ring volume",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration"
+      ]
+    },
+    {
+      "id": "node_124",
+      "label": "Notification volume",
+      "subtitle": null,
+      "screenSignature": "fb4b76617abb0094",
+      "screenTitle": "Sounds & vibration",
+      "parentId": "node_7",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Notification volume",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration"
+      ]
+    },
+    {
+      "id": "node_125",
+      "label": "Alarm volume",
+      "subtitle": null,
+      "screenSignature": "fb4b76617abb0094",
+      "screenTitle": "Sounds & vibration",
+      "parentId": "node_7",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Alarm volume",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration"
+      ]
+    },
+    {
+      "id": "node_126",
+      "label": "Use volume buttons to adjust",
+      "subtitle": "Media",
+      "screenSignature": "fb4b76617abb0094",
+      "screenTitle": "Sounds & vibration",
+      "parentId": "node_7",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Use volume buttons to adjust",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_131",
+        "node_132"
+      ],
+      "pathBreadcrumbs": [
+        "Sounds & vibration"
+      ]
+    },
+    {
+      "id": "node_127",
+      "label": "Volume adjustment per app",
+      "subtitle": "Off",
+      "screenSignature": "fb4b76617abb0094",
+      "screenTitle": "Sounds & vibration",
+      "parentId": "node_7",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Volume adjustment per app",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_133",
+        "node_134",
+        "node_135"
+      ],
+      "pathBreadcrumbs": [
+        "Sounds & vibration"
+      ]
+    },
+    {
+      "id": "node_128",
+      "label": "Vibrate for incoming calls",
+      "subtitle": "Never vibrate",
+      "screenSignature": "fb4b76617abb0094",
+      "screenTitle": "Sounds & vibration",
+      "parentId": "node_7",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Vibrate for incoming calls",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_136",
+        "node_137",
+        "node_138"
+      ],
+      "pathBreadcrumbs": [
+        "Sounds & vibration"
+      ]
+    },
+    {
+      "id": "node_129",
+      "label": "Vibrate for notifications",
+      "subtitle": null,
+      "screenSignature": "fb4b76617abb0094",
+      "screenTitle": "Sounds & vibration",
+      "parentId": "node_7",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Vibrate for notifications",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration"
+      ]
+    },
+    {
+      "id": "node_130",
+      "label": "Do Not Disturb",
+      "subtitle": "Off",
+      "screenSignature": "fb4b76617abb0094",
+      "screenTitle": "Sounds & vibration",
+      "parentId": "node_7",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Do Not Disturb",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_139",
+        "node_140",
+        "node_141",
+        "node_142",
+        "node_143",
+        "node_144",
+        "node_145",
+        "node_146",
+        "node_147",
+        "node_148",
+        "node_149",
+        "node_150",
+        "node_151"
+      ],
+      "pathBreadcrumbs": [
+        "Sounds & vibration"
+      ]
+    },
+    {
+      "id": "node_131",
+      "label": "Media",
+      "subtitle": null,
+      "screenSignature": "4a694561348968f4",
+      "screenTitle": "Use volume buttons to adjust",
+      "parentId": "node_126",
+      "selector": {
+        "resourceId": "android:id/text1",
+        "text": "Media",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.CheckedTextView",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Use volume buttons to adjust"
+      ]
+    },
+    {
+      "id": "node_132",
+      "label": "Ringtone",
+      "subtitle": null,
+      "screenSignature": "4a694561348968f4",
+      "screenTitle": "Use volume buttons to adjust",
+      "parentId": "node_126",
+      "selector": {
+        "resourceId": "android:id/text1",
+        "text": "Ringtone",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.CheckedTextView",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Use volume buttons to adjust"
+      ]
+    },
+    {
+      "id": "node_133",
+      "label": "Tap the Expand button at the bottom of the volume panel to adjust the volume for each app that is playing media.",
+      "subtitle": null,
+      "screenSignature": "cbaad2fb22d0c548",
+      "screenTitle": "Volume adjustment per app",
+      "parentId": "node_127",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Tap the Expand button at the bottom of the volume panel to adjust the volume for each app that is playing media.",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Volume adjustment per app"
+      ]
+    },
+    {
+      "id": "node_134",
+      "label": "Volume adjustment per app",
+      "subtitle": null,
+      "screenSignature": "cbaad2fb22d0c548",
+      "screenTitle": "Volume adjustment per app",
+      "parentId": "node_127",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Volume adjustment per app",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Volume adjustment per app"
+      ]
+    },
+    {
+      "id": "node_135",
+      "label": "Remember adjustment result",
+      "subtitle": "Apply the last volume adjustment setting when you open an app again",
+      "screenSignature": "cbaad2fb22d0c548",
+      "screenTitle": "Volume adjustment per app",
+      "parentId": "node_127",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Remember adjustment result",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Volume adjustment per app"
+      ]
+    },
+    {
+      "id": "node_136",
+      "label": "Never vibrate",
+      "subtitle": null,
+      "screenSignature": "d8b09ae0c95ef21f",
+      "screenTitle": "Vibrate for incoming calls",
+      "parentId": "node_128",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Never vibrate",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Vibrate for incoming calls"
+      ]
+    },
+    {
+      "id": "node_137",
+      "label": "Always vibrate",
+      "subtitle": null,
+      "screenSignature": "d8b09ae0c95ef21f",
+      "screenTitle": "Vibrate for incoming calls",
+      "parentId": "node_128",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Always vibrate",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Vibrate for incoming calls"
+      ]
+    },
+    {
+      "id": "node_138",
+      "label": "Vibrate first then ring gradually",
+      "subtitle": null,
+      "screenSignature": "d8b09ae0c95ef21f",
+      "screenTitle": "Vibrate for incoming calls",
+      "parentId": "node_128",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Vibrate first then ring gradually",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Vibrate for incoming calls"
+      ]
+    },
+    {
+      "id": "node_139",
+      "label": "Do Not Disturb",
+      "subtitle": "Only receive calls, messages, and app notifications which are allowed to interrupt",
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Do Not Disturb",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_140",
+      "label": "Exceptions allowed to interrupt",
+      "subtitle": null,
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Exceptions allowed to interrupt",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_141",
+      "label": "Calls",
+      "subtitle": "Starred contacts and repeat callers",
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Calls",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_152",
+        "node_153",
+        "node_154",
+        "node_155",
+        "node_156",
+        "node_157",
+        "node_158"
+      ],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_142",
+      "label": "Messages",
+      "subtitle": "None",
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Messages",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_159",
+        "node_160",
+        "node_161",
+        "node_162",
+        "node_163",
+        "node_164",
+        "node_165"
+      ],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_143",
+      "label": "Apps",
+      "subtitle": "Ⅱ·Google Play services",
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Apps",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_166",
+        "node_167",
+        "node_168",
+        "node_169"
+      ],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_144",
+      "label": "Alarms & others",
+      "subtitle": "Alarms and media",
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Alarms & others",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_145",
+      "label": "Schedule",
+      "subtitle": null,
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Schedule",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_146",
+      "label": "Sleeping",
+      "subtitle": "Sun - Sat, 22:00 - 07:00 next day",
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Sleeping",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_147",
+      "label": "Event",
+      "subtitle": "Any calendar",
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Event",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_148",
+      "label": "Add",
+      "subtitle": null,
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Add",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_149",
+      "label": "General",
+      "subtitle": null,
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "General",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_150",
+      "label": "Duration for manual turning on",
+      "subtitle": "Until you turn off",
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Duration for manual turning on",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_151",
+      "label": "Display options for hidden notifications",
+      "subtitle": "No visuals or sounds from notifications",
+      "screenSignature": "8a0d2f4e689b77a7",
+      "screenTitle": "Do Not Disturb",
+      "parentId": "node_130",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Display options for hidden notifications",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb"
+      ]
+    },
+    {
+      "id": "node_152",
+      "label": "Calls allowed to interrupt",
+      "subtitle": null,
+      "screenSignature": "1dbf8f0c43c71e48",
+      "screenTitle": "Calls",
+      "parentId": "node_141",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Calls allowed to interrupt",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Calls"
+      ]
+    },
+    {
+      "id": "node_153",
+      "label": "Starred contacts",
+      "subtitle": "None",
+      "screenSignature": "1dbf8f0c43c71e48",
+      "screenTitle": "Calls",
+      "parentId": "node_141",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Starred contacts",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Calls"
+      ]
+    },
+    {
+      "id": "node_154",
+      "label": "Contacts",
+      "subtitle": "487 contacts",
+      "screenSignature": "1dbf8f0c43c71e48",
+      "screenTitle": "Calls",
+      "parentId": "node_141",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Contacts",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Calls"
+      ]
+    },
+    {
+      "id": "node_155",
+      "label": "Anyone",
+      "subtitle": "All calls can reach you",
+      "screenSignature": "1dbf8f0c43c71e48",
+      "screenTitle": "Calls",
+      "parentId": "node_141",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Anyone",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Calls"
+      ]
+    },
+    {
+      "id": "node_156",
+      "label": "None",
+      "subtitle": null,
+      "screenSignature": "1dbf8f0c43c71e48",
+      "screenTitle": "Calls",
+      "parentId": "node_141",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "None",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Calls"
+      ]
+    },
+    {
+      "id": "node_157",
+      "label": "Allow repeated calls",
+      "subtitle": "Repeated calls within 15 minutes will ring normally",
+      "screenSignature": "1dbf8f0c43c71e48",
+      "screenTitle": "Calls",
+      "parentId": "node_141",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Allow repeated calls",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Calls"
+      ]
+    },
+    {
+      "id": "node_158",
+      "label": "You can still receive calls from these contacts even if you have blocked notifications for phone apps\n\nTo make sure allowed calls ring, check that your device is set to ring",
+      "subtitle": null,
+      "screenSignature": "1dbf8f0c43c71e48",
+      "screenTitle": "Calls",
+      "parentId": "node_141",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "You can still receive calls from these contacts even if you have blocked notifications for phone apps\n\nTo make sure allowed calls ring, check that your device is set to ring",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Calls"
+      ]
+    },
+    {
+      "id": "node_159",
+      "label": "Messages allowed to interrupt",
+      "subtitle": null,
+      "screenSignature": "2da043a8ad9f9f5c",
+      "screenTitle": "Messages",
+      "parentId": "node_142",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Messages allowed to interrupt",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Messages"
+      ]
+    },
+    {
+      "id": "node_160",
+      "label": "Starred contacts",
+      "subtitle": "None",
+      "screenSignature": "2da043a8ad9f9f5c",
+      "screenTitle": "Messages",
+      "parentId": "node_142",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Starred contacts",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Messages"
+      ]
+    },
+    {
+      "id": "node_161",
+      "label": "Contacts",
+      "subtitle": "487 contacts",
+      "screenSignature": "2da043a8ad9f9f5c",
+      "screenTitle": "Messages",
+      "parentId": "node_142",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Contacts",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Messages"
+      ]
+    },
+    {
+      "id": "node_162",
+      "label": "Priority conversations",
+      "subtitle": "None",
+      "screenSignature": "2da043a8ad9f9f5c",
+      "screenTitle": "Messages",
+      "parentId": "node_142",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Priority conversations",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Messages"
+      ]
+    },
+    {
+      "id": "node_163",
+      "label": "Anyone",
+      "subtitle": "All messages can reach you",
+      "screenSignature": "2da043a8ad9f9f5c",
+      "screenTitle": "Messages",
+      "parentId": "node_142",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Anyone",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Messages"
+      ]
+    },
+    {
+      "id": "node_164",
+      "label": "None",
+      "subtitle": null,
+      "screenSignature": "2da043a8ad9f9f5c",
+      "screenTitle": "Messages",
+      "parentId": "node_142",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "None",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Messages"
+      ]
+    },
+    {
+      "id": "node_165",
+      "label": "You can still receive messages from these contacts even if you have blocked notifications for message apps\n\nTo make sure allowed messages make sound, check that your device is set to ring",
+      "subtitle": null,
+      "screenSignature": "2da043a8ad9f9f5c",
+      "screenTitle": "Messages",
+      "parentId": "node_142",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "You can still receive messages from these contacts even if you have blocked notifications for message apps\n\nTo make sure allowed messages make sound, check that your device is set to ring",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Messages"
+      ]
+    },
+    {
+      "id": "node_166",
+      "label": "Apps allowed to interrupt",
+      "subtitle": null,
+      "screenSignature": "9628f33f6846fe1b",
+      "screenTitle": "Apps",
+      "parentId": "node_143",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Apps allowed to interrupt",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_167",
+      "label": "Ⅱ·Google Play services",
+      "subtitle": "Some notifications",
+      "screenSignature": "9628f33f6846fe1b",
+      "screenTitle": "Apps",
+      "parentId": "node_143",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Ⅱ·Google Play services",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_168",
+      "label": "Add apps",
+      "subtitle": null,
+      "screenSignature": "9628f33f6846fe1b",
+      "screenTitle": "Apps",
+      "parentId": "node_143",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Add apps",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_169",
+      "label": "You can still receive calls and messages from these contacts even if you have blocked notifications for relevant phone apps and message apps",
+      "subtitle": null,
+      "screenSignature": "9628f33f6846fe1b",
+      "screenTitle": "Apps",
+      "parentId": "node_143",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "You can still receive calls and messages from these contacts even if you have blocked notifications for relevant phone apps and message apps",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Sounds & vibration",
+        "Do Not Disturb",
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_170",
+      "label": "Recently opened apps",
+      "subtitle": null,
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Recently opened apps",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_171",
+      "label": "Settings Lens",
+      "subtitle": "0 min. ago",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Settings Lens",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_186",
+        "node_187",
+        "node_188",
+        "node_189",
+        "node_190",
+        "node_191",
+        "node_192",
+        "node_193",
+        "node_194",
+        "node_195",
+        "node_196",
+        "node_197",
+        "node_198"
+      ],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_172",
+      "label": "Weather",
+      "subtitle": "1 min. ago",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Weather",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_173",
+      "label": "Simple View",
+      "subtitle": "1 min. ago",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Simple View",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_174",
+      "label": "Themes",
+      "subtitle": "1 min. ago",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Themes",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_175",
+      "label": "See all apps",
+      "subtitle": null,
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "See all apps",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_176",
+      "label": "General",
+      "subtitle": null,
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "General",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_177",
+      "label": "Assistant",
+      "subtitle": "Hey Google and other Assistant settings",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Assistant",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_178",
+      "label": "Screen time",
+      "subtitle": null,
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Screen time",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_179",
+      "label": "Cloud media settings",
+      "subtitle": "Google Photos",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Cloud media settings",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_180",
+      "label": "App clone",
+      "subtitle": "App cloning has been enabled for 0 apps. 17 apps support app cloning",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "App clone",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_181",
+      "label": "See all 210 apps",
+      "subtitle": null,
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "See all 210 apps",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_182",
+      "label": "Default apps",
+      "subtitle": "Chrome, Phone, and Messages",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Default apps",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_183",
+      "label": "Unused apps",
+      "subtitle": "100 unused apps",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Unused apps",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_184",
+      "label": "Special app access",
+      "subtitle": "4 apps can use unrestricted data",
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Special app access",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_185",
+      "label": "Enable Alternate Phone & Contacts",
+      "subtitle": null,
+      "screenSignature": "558bec20cd6abbb4",
+      "screenTitle": "Apps",
+      "parentId": "node_8",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Enable Alternate Phone & Contacts",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps"
+      ]
+    },
+    {
+      "id": "node_186",
+      "label": "Settings Lens",
+      "subtitle": null,
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "com.android.settings:id/entity_header_title",
+        "text": "Settings Lens",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.FrameLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_187",
+      "label": "Notifications",
+      "subtitle": "Off",
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Notifications",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [
+        "node_199",
+        "node_200",
+        "node_201"
+      ],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_188",
+      "label": "Permissions",
+      "subtitle": "Microphone",
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Permissions",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_189",
+      "label": "Storage & cache",
+      "subtitle": "7.97 MB used in internal storage",
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Storage & cache",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_190",
+      "label": "Mobile data & Wi‑Fi",
+      "subtitle": "No data used",
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Mobile data & Wi‑Fi",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_191",
+      "label": "Screen time",
+      "subtitle": null,
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Screen time",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_192",
+      "label": "App battery usage",
+      "subtitle": null,
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "App battery usage",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_193",
+      "label": "Open by default",
+      "subtitle": "Allow app to open supported links",
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Open by default",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_194",
+      "label": "Unused app settings",
+      "subtitle": null,
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Unused app settings",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_195",
+      "label": "Pause app activity if unused",
+      "subtitle": "Remove permissions, delete temporary files, and stop notifications",
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Pause app activity if unused",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_196",
+      "label": "Advanced",
+      "subtitle": null,
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Advanced",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_197",
+      "label": "Display over other apps",
+      "subtitle": "Allowed",
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "Display over other apps",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_198",
+      "label": "version 1.0",
+      "subtitle": null,
+      "screenSignature": "e2e079dbe84c979d",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_171",
+      "selector": {
+        "resourceId": "android:id/summary",
+        "text": "version 1.0",
+        "contentDescription": null
+      },
+      "depth": 2,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens"
+      ]
+    },
+    {
+      "id": "node_199",
+      "label": "Settings Lens",
+      "subtitle": null,
+      "screenSignature": "5da9709b8fd4a039",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_187",
+      "selector": {
+        "resourceId": "com.android.settings:id/entity_header_title",
+        "text": "Settings Lens",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.FrameLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens",
+        "Notifications"
+      ]
+    },
+    {
+      "id": "node_200",
+      "label": "All Settings Lens notifications",
+      "subtitle": null,
+      "screenSignature": "5da9709b8fd4a039",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_187",
+      "selector": {
+        "resourceId": "com.android.settings:id/switch_text",
+        "text": "All Settings Lens notifications",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.FrameLayout",
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens",
+        "Notifications"
+      ]
+    },
+    {
+      "id": "node_201",
+      "label": "You haven't allowed notifications from this app",
+      "subtitle": null,
+      "screenSignature": "5da9709b8fd4a039",
+      "screenTitle": "Settings Lens",
+      "parentId": "node_187",
+      "selector": {
+        "resourceId": "android:id/title",
+        "text": "You haven't allowed notifications from this app",
+        "contentDescription": null
+      },
+      "depth": 3,
+      "directIntentAction": null,
+      "className": "android.widget.LinearLayout",
+      "isClickable": false,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Apps",
+        "Settings Lens",
+        "Notifications"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-06T01:29:56.127767Z",
+  "screenSignatures": [
+    "fe9233edaf93a98c",
+    "35d6b47cb0f3c860",
+    "6dca0c8b8aa6c78f",
+    "79c3e56457c1cc00",
+    "2f6eed8f5793db3e",
+    "1cd4623604c22976",
+    "40aef9df47960fd7",
+    "819480c898c8a032",
+    "2b30f90c4c4c1c3d",
+    "7da83054da53ee7a",
+    "66a2211147a7cf09",
+    "5a751bb1460bf5b7",
+    "c8ffb00c3f697124",
+    "7374ad4033ca0c04",
+    "d134d0592d148379",
+    "67dae7a17952d672",
+    "23011253613ad045",
+    "ae9f0ff233f4354a",
+    "a51df397b74902df",
+    "c14682f7d928dfd0",
+    "fb4b76617abb0094",
+    "4a694561348968f4",
+    "cbaad2fb22d0c548",
+    "d8b09ae0c95ef21f",
+    "8a0d2f4e689b77a7",
+    "1dbf8f0c43c71e48",
+    "2da043a8ad9f9f5c",
+    "9628f33f6846fe1b",
+    "558bec20cd6abbb4",
+    "e2e079dbe84c979d",
+    "5da9709b8fd4a039"
+  ]
+}

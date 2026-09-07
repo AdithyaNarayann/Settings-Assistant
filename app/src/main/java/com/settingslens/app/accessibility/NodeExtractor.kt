@@ -77,13 +77,18 @@ object NodeExtractor {
         // 1. Check for heading role (API 28+)
         val headingNode = findFirstByPredicate(root) { it.isHeading && !it.text.isNullOrBlank() }
         if (headingNode?.text?.isNotBlank() == true) {
-            return headingNode.text.toString().trim()
+            val text = headingNode.text.toString().trim()
+            if (isLikelyScreenTitle(text)) return text
         }
 
         // 2. Check toolbar / action bar title patterns (Pixel, Vivo, Samsung, MIUI)
         val toolbarTitle = findFirstByPredicate(root) { node ->
             val resId = node.viewIdResourceName?.lowercase() ?: ""
             val cls = node.className?.toString() ?: ""
+            val bounds = Rect()
+            node.getBoundsInScreen(bounds)
+            val isTopArea = bounds.top < 450 && bounds.height() > 20
+
             val isTitleRes = resId.contains("action_bar_title") ||
                     resId.contains("toolbar_title") ||
                     resId.contains("collapsing_toolbar") ||
@@ -91,33 +96,44 @@ object NodeExtractor {
                     resId.contains("entity_header_title") ||
                     resId.contains("suc_layout_title") ||
                     resId.contains("vivo_action_bar_title") ||
-                    (resId.endsWith(":id/title") && node.parent?.className?.contains("Toolbar") == true)
+                    resId.contains("actionbar") ||
+                    (resId.endsWith(":id/title") && isTopArea)
 
-            (isTitleRes || cls.contains("Toolbar")) && !node.text.isNullOrBlank()
+            (isTitleRes || (cls.contains("Toolbar") && isTopArea)) && !node.text.isNullOrBlank()
         }
 
         if (toolbarTitle?.text?.isNotBlank() == true) {
-            return toolbarTitle.text.toString().trim()
+            val text = toolbarTitle.text.toString().trim()
+            if (isLikelyScreenTitle(text)) return text
         }
 
         // 3. Fallback: window pane title
         val paneTitle = root.paneTitle?.toString()?.trim()
-        if (!paneTitle.isNullOrBlank()) {
+        if (!paneTitle.isNullOrBlank() && isLikelyScreenTitle(paneTitle)) {
             return paneTitle
         }
 
-        // 4. Fallback: prominent TextView at top of viewport (< 250px from top)
+        // 4. Fallback: prominent TextView at top of viewport (< 450px from top)
         val topText = findFirstByPredicate(root) { node ->
             if (node.className?.contains("TextView") == true && !node.text.isNullOrBlank()) {
                 val bounds = Rect()
                 node.getBoundsInScreen(bounds)
-                bounds.top in 50..250 && bounds.height() > 30
+                bounds.top in 60..450 && bounds.height() > 25 && bounds.width() > 100
             } else {
                 false
             }
         }
 
-        return topText?.text?.toString()?.trim()
+        val text = topText?.text?.toString()?.trim()
+        return if (text != null && isLikelyScreenTitle(text)) text else null
+    }
+
+    private fun isLikelyScreenTitle(text: String): Boolean {
+        if (text.length > 60) return false
+        // Skip status bar indicators (time, battery)
+        if (text.matches(Regex("""^\d{1,2}:\d{2}.*"""))) return false
+        if (text.matches(Regex("""^\d{1,3}\s*%.*"""))) return false
+        return true
     }
 
     private fun findListContainer(root: AccessibilityNodeInfo): AccessibilityNodeInfo? {
@@ -336,23 +352,39 @@ object NodeExtractor {
     fun findNodeBySelector(root: AccessibilityNodeInfo?, selector: NodeSelector): AccessibilityNodeInfo? {
         if (root == null) return null
 
-        // 1. Text match first — settings labels are unique on screen
-        if (!selector.text.isNullOrBlank()) {
-            val textMatches = root.findAccessibilityNodeInfosByText(selector.text.trim())
-            val exact = textMatches.find { it.text?.toString()?.trim().equals(selector.text.trim(), ignoreCase = true) }
+        val targetText = selector.text?.trim()
+
+        // 1. Text match via system API first (fastest)
+        if (!targetText.isNullOrBlank()) {
+            val textMatches = root.findAccessibilityNodeInfosByText(targetText)
+            val exact = textMatches.find { it.text?.toString()?.trim().equals(targetText, ignoreCase = true) }
             if (exact != null) return exact
 
-            val partial = textMatches.find { it.text?.toString()?.contains(selector.text.trim(), ignoreCase = true) == true }
+            val partial = textMatches.find { it.text?.toString()?.contains(targetText, ignoreCase = true) == true }
             if (partial != null) return partial
         }
 
-        // 2. Resource ID match (verify text if selector provides text)
+        // 2. Full tree BFS traversal fallback for text (essential when accessibility cache misses custom OEM views)
+        if (!targetText.isNullOrBlank()) {
+            val cleanTarget = targetText.lowercase()
+            val bfsMatch = findFirstByPredicate(root) { node ->
+                val t = node.text?.toString()?.trim()?.lowercase() ?: ""
+                val d = node.contentDescription?.toString()?.trim()?.lowercase() ?: ""
+                t == cleanTarget || d == cleanTarget ||
+                        (cleanTarget.length >= 3 && t.length >= 3 && t.contains(cleanTarget))
+            }
+            if (bfsMatch != null) return bfsMatch
+        }
+
+        // 3. Resource ID match (verify text if selector provides text)
         if (!selector.resourceId.isNullOrBlank()) {
             val resMatches = root.findAccessibilityNodeInfosByViewId(selector.resourceId)
             if (resMatches.isNotEmpty()) {
-                if (!selector.text.isNullOrBlank()) {
+                if (!targetText.isNullOrBlank()) {
                     val matchingText = resMatches.find { node ->
-                        node.text?.toString()?.trim().equals(selector.text.trim(), ignoreCase = true)
+                        val nodeText = node.text?.toString()?.trim() ?: ""
+                        nodeText.equals(targetText, ignoreCase = true) ||
+                                (nodeText.length >= 3 && targetText.length >= 3 && nodeText.contains(targetText, ignoreCase = true))
                     }
                     if (matchingText != null) return matchingText
                 } else if (resMatches.size == 1) {
@@ -361,7 +393,7 @@ object NodeExtractor {
             }
         }
 
-        // 3. Content description
+        // 4. Content description match
         if (!selector.contentDescription.isNullOrBlank()) {
             return findFirstByPredicate(root) { node ->
                 node.contentDescription?.toString()?.trim().equals(selector.contentDescription.trim(), ignoreCase = true)

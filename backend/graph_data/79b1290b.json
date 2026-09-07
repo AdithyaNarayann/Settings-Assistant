@@ -1,0 +1,31 @@
+{
+  "graphId": "79b1290b",
+  "deviceManufacturer": "Vivo",
+  "deviceModel": "V2154",
+  "androidVersion": 34,
+  "nodes": [
+    {
+      "id": "node_font_size",
+      "label": "Font size",
+      "subtitle": "Make text larger or smaller",
+      "screenSignature": "sig_display",
+      "screenTitle": null,
+      "parentId": null,
+      "selector": {
+        "resourceId": null,
+        "text": "Font size",
+        "contentDescription": null
+      },
+      "depth": 1,
+      "directIntentAction": null,
+      "className": null,
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": []
+    }
+  ],
+  "createdAt": "2026-09-06T00:00:00Z",
+  "screenSignatures": [
+    "sig_display"
+  ]
+}

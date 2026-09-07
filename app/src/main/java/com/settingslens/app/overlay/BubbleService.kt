@@ -10,7 +10,9 @@ import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.graphics.PixelFormat
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
@@ -52,6 +54,24 @@ class BubbleService : Service() {
         private const val TAG = "SettingsLens:Bubble"
         private const val NOTIFICATION_ID = 1001
         private const val CHANNEL_ID = "settings_lens_bubble"
+        private var activeInstance: BubbleService? = null
+
+        val isRunning: Boolean
+            get() = activeInstance != null
+
+        fun onPackageChanged(pkg: String, isSettings: Boolean) {
+            activeInstance?.let { service ->
+                service.ensureAccessibilityOverlay()
+                service.updateVisibilityForPackage(pkg, isSettings)
+            }
+        }
+
+        fun checkVisibilityNow() {
+            val a11y = com.settingslens.app.accessibility.SettingsAccessibilityService.instance
+            val pkg = a11y?.getActivePackage() ?: ""
+            val inSettings = a11y?.isSettingsPackage(pkg) ?: false
+            activeInstance?.updateVisibilityForPackage(pkg, inSettings)
+        }
 
         fun start(context: Context) {
             if (!Settings.canDrawOverlays(context)) {
@@ -80,11 +100,13 @@ class BubbleService : Service() {
     }
 
     private lateinit var windowManager: WindowManager
+    private var targetWindowManager: WindowManager? = null
     private var bubbleView: View? = null
     private lateinit var layoutParams: WindowManager.LayoutParams
     private lateinit var voiceCapture: VoiceCaptureManager
     private lateinit var ttsManager: TtsManager
     private lateinit var graphStorage: GraphStorage
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     // CoroutineExceptionHandler protects against crashes on the Main Looper
     private val looperExceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -102,6 +124,7 @@ class BubbleService : Service() {
     override fun onCreate() {
         super.onCreate()
         Log.i(TAG, "🟢 [Bubble Service Started] Initializing floating assistant bubble...")
+        activeInstance = this
 
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         graphStorage = GraphStorage(this)
@@ -137,11 +160,12 @@ class BubbleService : Service() {
 
     override fun onDestroy() {
         Log.i(TAG, "🔴 [Bubble Service Stopped] Cleaning up overlay views and resources...")
+        activeInstance = null
         serviceScope.cancel()
 
         bubbleView?.let { view ->
             try {
-                windowManager.removeView(view)
+                (targetWindowManager ?: windowManager).removeView(view)
                 Log.d(TAG, "🧹 [Overlay Removed] Floating view detached from WindowManager.")
             } catch (e: Exception) {
                 Log.w(TAG, "⚠️ [Overlay Removal Notice] View was already detached: ${e.localizedMessage}")
@@ -154,15 +178,45 @@ class BubbleService : Service() {
         super.onDestroy()
     }
 
+    fun ensureAccessibilityOverlay() {
+        val a11y = com.settingslens.app.accessibility.SettingsAccessibilityService.instance ?: return
+        if (::layoutParams.isInitialized && layoutParams.type != WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY) {
+            Log.i(TAG, "🔄 [Upgrading Overlay] Upgrading overlay window to TYPE_ACCESSIBILITY_OVERLAY for full Settings visibility...")
+            bubbleView?.let { view ->
+                try {
+                    (targetWindowManager ?: windowManager).removeView(view)
+                } catch (e: Exception) {
+                    // benign
+                }
+            }
+            bubbleView = null
+            setupBubbleView()
+        }
+    }
+
     private fun setupBubbleView() {
         try {
-            val view = LayoutInflater.from(this).inflate(R.layout.overlay_bubble, null)
+            val a11y = com.settingslens.app.accessibility.SettingsAccessibilityService.instance
+            val wm = if (a11y != null) {
+                a11y.getSystemService(WINDOW_SERVICE) as WindowManager
+            } else {
+                windowManager
+            }
+            targetWindowManager = wm
+            val windowType = if (a11y != null) {
+                WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY
+            } else {
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            }
+
+            val view = LayoutInflater.from(a11y ?: this).inflate(R.layout.overlay_bubble, null)
             bubbleView = view
 
+            val sizePx = (56 * resources.displayMetrics.density).toInt()
             layoutParams = WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                sizePx,
+                sizePx,
+                windowType,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                         WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
                         WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
@@ -170,14 +224,58 @@ class BubbleService : Service() {
             ).apply {
                 gravity = Gravity.TOP or Gravity.START
                 x = 60
-                y = 250
+                y = 350
             }
 
+            val activePkg = a11y?.getActivePackage() ?: ""
+            val currentlyInSettings = a11y?.isSettingsPackage(activePkg) ?: false
+
+            if (currentlyInSettings) {
+                view.visibility = View.VISIBLE
+                layoutParams.width = sizePx
+                layoutParams.height = sizePx
+                layoutParams.flags = layoutParams.flags and WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE.inv()
+            } else {
+                view.visibility = View.GONE
+                layoutParams.width = 0
+                layoutParams.height = 0
+                layoutParams.flags = layoutParams.flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            }
+            Log.i(TAG, "🫧 [Bubble Setup] Active pkg: '$activePkg', inSettings: $currentlyInSettings -> visibility: ${if (currentlyInSettings) "VISIBLE" else "GONE"} (type: $windowType)")
+
             setupTouchListener(view)
-            windowManager.addView(view, layoutParams)
-            Log.i(TAG, "🫧 [Bubble Displayed] Floating overlay successfully attached to window.")
+            wm.addView(view, layoutParams)
+            Log.i(TAG, "🫧 [Bubble Attached] Floating overlay attached with window type $windowType.")
         } catch (e: Exception) {
             Log.e(TAG, "💥 [Overlay Attachment Failed] Cannot display bubble: ${e.localizedMessage}", e)
+        }
+    }
+
+    fun updateVisibilityForPackage(pkg: String, isSettings: Boolean) {
+        mainHandler.post {
+            bubbleView?.let { view ->
+                val targetVisibility = if (isSettings) View.VISIBLE else View.GONE
+                val sizePx = (56 * resources.displayMetrics.density).toInt()
+                val targetWidth = if (isSettings) sizePx else 0
+                val targetHeight = if (isSettings) sizePx else 0
+
+                if (view.visibility != targetVisibility || layoutParams.width != targetWidth) {
+                    view.visibility = targetVisibility
+                    try {
+                        layoutParams.width = targetWidth
+                        layoutParams.height = targetHeight
+                        if (isSettings) {
+                            layoutParams.flags = layoutParams.flags and WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE.inv()
+                        } else {
+                            layoutParams.flags = layoutParams.flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                        }
+                        (targetWindowManager ?: windowManager).updateViewLayout(view, layoutParams)
+                    } catch (e: Exception) {
+                        Log.w(TAG, "⚠️ [Layout Update Notice] ${e.localizedMessage}")
+                    }
+                    Log.i(TAG, "🫧 [Bubble Visibility Updated] Package: $pkg, inSettings: $isSettings -> visibility: ${if (isSettings) "VISIBLE" else "GONE"}")
+                }
+            }
         }
     }
 
@@ -211,7 +309,7 @@ class BubbleService : Service() {
                         layoutParams.x = (initialX + dx).toInt()
                         layoutParams.y = (initialY + dy).toInt()
                         try {
-                            bubbleView?.let { windowManager.updateViewLayout(it, layoutParams) }
+                            bubbleView?.let { (targetWindowManager ?: windowManager).updateViewLayout(it, layoutParams) }
                         } catch (e: Exception) {
                             // Suppress benign layout update exception during drag
                         }
@@ -246,7 +344,7 @@ class BubbleService : Service() {
             addUpdateListener {
                 layoutParams.x = it.animatedValue as Int
                 try {
-                    bubbleView?.let { windowManager.updateViewLayout(it, layoutParams) }
+                    bubbleView?.let { (targetWindowManager ?: windowManager).updateViewLayout(it, layoutParams) }
                 } catch (e: Exception) {
                     // Suppress animation update if view detached
                 }
@@ -318,15 +416,22 @@ class BubbleService : Service() {
         }
 
         serviceScope.launch {
-            var resolvedOnline = false
+            // Step 1: Ultra-fast on-device match (< 50ms)
+            val localResponse = LocalResolver.resolve(graph, transcript)
+            if (localResponse.isResolved && (localResponse.confidence ?: 0.0) >= 0.70) {
+                val conf = ((localResponse.confidence ?: 1.0) * 100).toInt()
+                Log.i(TAG, "⚡ [Instant Match] On-device resolution succeeded with $conf% confidence in <50ms!")
+                handleResolveResponse(localResponse)
+                return@launch
+            }
 
-            // Try backend first if server is reachable
+            // Step 2: Try backend with 2.0s fast timeout if local was low confidence
+            var resolvedOnline = false
             try {
                 var graphId = currentGraphId ?: graph.graphId
                 if (graphId == null) {
-                    Log.d(TAG, "☁️ [Syncing Graph] Attempting quick graph upload before resolve...")
-                    val uploadResponse = withContext(Dispatchers.IO) {
-                        ApiClient.api.uploadGraph(graph)
+                    val uploadResponse = withTimeout(1500L) {
+                        withContext(Dispatchers.IO) { ApiClient.api.uploadGraph(graph) }
                     }
                     graphId = uploadResponse.graphId
                     graph.graphId = graphId
@@ -335,27 +440,28 @@ class BubbleService : Service() {
                 }
 
                 if (graphId != null) {
-                    Log.d(TAG, "🌐 [Querying Assistant] Sending transcript to backend resolver (Graph ID: $graphId)...")
-                    val response = withContext(Dispatchers.IO) {
-                        ApiClient.api.resolve(
-                            ResolveRequest(
-                                graphId = graphId,
-                                transcript = transcript,
-                                conversationState = conversationState
+                    Log.d(TAG, "🌐 [Querying Assistant] Querying backend resolver with 2.0s timeout...")
+                    val response = withTimeout(2000L) {
+                        withContext(Dispatchers.IO) {
+                            ApiClient.api.resolve(
+                                ResolveRequest(
+                                    graphId = graphId,
+                                    transcript = transcript,
+                                    conversationState = conversationState
+                                )
                             )
-                        )
+                        }
                     }
                     resolvedOnline = true
                     handleResolveResponse(response)
                 }
             } catch (e: Exception) {
-                Log.w(TAG, "🌐 [Backend Unavailable] Online resolution failed (${e.localizedMessage}). Falling back to on-device offline resolver.")
+                Log.w(TAG, "🌐 [Backend Notice] Online resolution fast check: ${e.localizedMessage}")
             }
 
-            // Fallback to local offline resolution if online resolution didn't complete
+            // Step 3: Local resolution fallback
             if (!resolvedOnline) {
-                Log.i(TAG, "📱 [Offline Resolver] Resolving query locally against ${graph.nodeCount} nodes...")
-                val localResponse = LocalResolver.resolve(graph, transcript)
+                Log.i(TAG, "📱 [Offline Resolver] Using best local match for: \"$transcript\"")
                 handleResolveResponse(localResponse)
             }
         }

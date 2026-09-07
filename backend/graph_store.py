@@ -19,12 +19,22 @@ class GraphStore:
         """Load all stored graphs from disk into cache."""
         for filename in os.listdir(STORE_DIR):
             if filename.endswith(".json"):
+                filepath = os.path.join(STORE_DIR, filename)
                 try:
-                    with open(os.path.join(STORE_DIR, filename), "r") as f:
-                        data = json.load(f)
-                        graph = SettingsGraph(**data)
-                        if graph.graph_id:
-                            self._cache[graph.graph_id] = graph
+                    if os.path.getsize(filepath) == 0:
+                        os.remove(filepath)
+                        continue
+                    
+                    try:
+                        with open(filepath, "r", encoding="utf-8") as f:
+                            data = json.load(f)
+                    except UnicodeDecodeError:
+                        with open(filepath, "r", encoding="cp1252", errors="replace") as f:
+                            data = json.load(f)
+
+                    graph = SettingsGraph(**data)
+                    if graph.graph_id:
+                        self._cache[graph.graph_id] = graph
                 except Exception as e:
                     print(f"Failed to load {filename}: {e}")
     
@@ -33,10 +43,19 @@ class GraphStore:
         graph_id = str(uuid.uuid4())[:8]
         graph.graph_id = graph_id
         
-        # Save to disk
+        # Save to disk with explicit UTF-8 encoding
         filepath = os.path.join(STORE_DIR, f"{graph_id}.json")
-        with open(filepath, "w") as f:
-            f.write(graph.model_dump_json(indent=2, by_alias=True))
+        try:
+            content = graph.model_dump_json(indent=2, by_alias=True)
+            with open(filepath, "w", encoding="utf-8") as f:
+                f.write(content)
+        except Exception:
+            if os.path.exists(filepath):
+                try:
+                    os.remove(filepath)
+                except OSError:
+                    pass
+            raise
         
         # Cache in memory
         self._cache[graph_id] = graph

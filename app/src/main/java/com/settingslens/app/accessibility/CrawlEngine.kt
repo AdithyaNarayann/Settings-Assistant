@@ -2,6 +2,7 @@ package com.settingslens.app.accessibility
 
 import android.accessibilityservice.AccessibilityService
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
@@ -34,36 +35,43 @@ class CrawlEngine(
     companion object {
         private const val TAG = "SettingsLens:Crawl"
 
-        // Crawl bounds optimized for speed and complete tree coverage
+        // Crawl bounds optimized for complete exhaustive tree coverage
         private const val MAX_DEPTH = 3
-        private const val MAX_NODES = 800
-        private const val SETTLE_TIMEOUT_MS = 800L
-        private const val BACK_SETTLE_MS = 350L
-        private const val POST_CLICK_MIN_WAIT_MS = 150L
+        private const val MAX_NODES = 1200
+        private const val SETTLE_TIMEOUT_MS = 500L
+        private const val BACK_SETTLE_MS = 200L
+        private const val POST_CLICK_MIN_WAIT_MS = 80L
 
         /**
-         * Known intent actions for top-level settings categories.
-         * Enables instant direct-jump during navigation instead of walking from root.
+         * System Settings Intent map for direct fallback navigation.
+         * If a top-level category row cannot be acquired on screen or fails to transition,
+         * the engine launches the direct intent rather than skipping the entire category.
          */
         private val KNOWN_INTENT_ACTIONS = mapOf(
+            "network & internet" to Settings.ACTION_WIRELESS_SETTINGS,
+            "network" to Settings.ACTION_WIRELESS_SETTINGS,
+            "connections" to Settings.ACTION_WIRELESS_SETTINGS,
             "wi-fi" to Settings.ACTION_WIFI_SETTINGS,
             "wifi" to Settings.ACTION_WIFI_SETTINGS,
             "wlan" to Settings.ACTION_WIFI_SETTINGS,
+            "bluetooth & devices" to Settings.ACTION_BLUETOOTH_SETTINGS,
             "bluetooth" to Settings.ACTION_BLUETOOTH_SETTINGS,
+            "display & brightness" to Settings.ACTION_DISPLAY_SETTINGS,
             "display" to Settings.ACTION_DISPLAY_SETTINGS,
+            "sound & vibration" to Settings.ACTION_SOUND_SETTINGS,
+            "sounds & vibration" to Settings.ACTION_SOUND_SETTINGS,
             "sound" to Settings.ACTION_SOUND_SETTINGS,
             "sounds" to Settings.ACTION_SOUND_SETTINGS,
-            "sound & vibration" to Settings.ACTION_SOUND_SETTINGS,
-            "accessibility" to Settings.ACTION_ACCESSIBILITY_SETTINGS,
-            "apps" to Settings.ACTION_APPLICATION_SETTINGS,
-            "applications" to Settings.ACTION_APPLICATION_SETTINGS,
-            "location" to Settings.ACTION_LOCATION_SOURCE_SETTINGS,
-            "security" to Settings.ACTION_SECURITY_SETTINGS,
-            "battery" to Intent.ACTION_POWER_USAGE_SUMMARY,
-            "storage" to Settings.ACTION_INTERNAL_STORAGE_SETTINGS,
-            "network" to Settings.ACTION_WIRELESS_SETTINGS,
-            "connections" to Settings.ACTION_WIRELESS_SETTINGS,
             "notifications" to Settings.ACTION_APP_NOTIFICATION_SETTINGS,
+            "app notifications" to Settings.ACTION_APP_NOTIFICATION_SETTINGS,
+            "battery" to Intent.ACTION_POWER_USAGE_SUMMARY,
+            "ram & storage space" to Settings.ACTION_INTERNAL_STORAGE_SETTINGS,
+            "storage" to Settings.ACTION_INTERNAL_STORAGE_SETTINGS,
+            "security" to Settings.ACTION_SECURITY_SETTINGS,
+            "privacy" to Settings.ACTION_PRIVACY_SETTINGS,
+            "location" to Settings.ACTION_LOCATION_SOURCE_SETTINGS,
+            "shortcuts & accessibility" to Settings.ACTION_ACCESSIBILITY_SETTINGS,
+            "accessibility" to Settings.ACTION_ACCESSIBILITY_SETTINGS,
         )
 
         /**
@@ -104,9 +112,13 @@ class CrawlEngine(
             "licences",
             "emergency",          // Safety & emergency (avoids triggering SOS / contacts)
             "wallet",             // Google Wallet / Pay
-            "pay",
             "sim lock",
-            "google"              // Google settings — opens external Google app
+            "google",             // Google settings — opens external Google app
+            "screen time",        // Opens external Wellbeing app
+            "digital wellbeing",  // Opens external Wellbeing app
+            "parental controls",  // Opens external Family Link app
+            "v-appstore",         // External OEM app store
+            "easyshare"           // External OEM sharing app
         )
 
         /**
@@ -122,6 +134,9 @@ class CrawlEngine(
             "app info",
             "app management",
             "manage applications",
+            "recently opened apps",
+            "device & app notifications",
+            "app notifications",
             "paired devices",     // Bluetooth paired list → clicking connects/disconnects
             "previously connected",
             "available devices",
@@ -132,7 +147,20 @@ class CrawlEngine(
             "users",              // User profiles
             "multiple users",
             "add account",        // Account type list → opens external auth flow
-            "work profile"
+            "work profile",
+            "display at the top",
+            "full screen display",
+            "special app access",
+            "unrestricted data",
+            "modify system settings",
+            "picture-in-picture",
+            "install unknown apps",
+            "display over other apps",
+            "device admin apps",
+            "default apps",
+            "ringtones",
+            "notification tone",
+            "alarm tone"
         )
     }
 
@@ -170,9 +198,17 @@ class CrawlEngine(
             }
             service.startActivity(intent)
 
-            Log.d(TAG, "⏳ [Awaiting App Launch] Waiting for Settings main screen to settle...")
-            service.waitForWindowSettle(SETTLE_TIMEOUT_MS)
-            delay(POST_CLICK_MIN_WAIT_MS)
+            Log.d(TAG, "⏳ [Awaiting App Launch] Waiting for Settings main screen to appear...")
+            val launchStart = System.currentTimeMillis()
+            while (System.currentTimeMillis() - launchStart < 3500L) {
+                val pkg = service.rootInActiveWindow?.packageName?.toString() ?: ""
+                if (isSettingsPackage(pkg)) {
+                    Log.i(TAG, "✅ [Settings Active] Detected Settings foreground window ($pkg).")
+                    break
+                }
+                delay(80)
+            }
+            delay(200)
 
             // Begin recursive traversal with root breadcrumbs
             crawlCurrentScreen(parentId = null, depth = 0, breadcrumbs = emptyList(), parentLabel = null)
@@ -220,17 +256,31 @@ class CrawlEngine(
             return
         }
 
-        val root = service.rootInActiveWindow ?: run {
+        var currentRoot = service.rootInActiveWindow
+        var packageName = currentRoot?.packageName?.toString() ?: ""
+        if (!isSettingsPackage(packageName)) {
+            if (depth == 0) {
+                delay(400)
+                currentRoot = service.rootInActiveWindow
+                packageName = currentRoot?.packageName?.toString() ?: ""
+            }
+            if (!isSettingsPackage(packageName)) {
+                Log.w(TAG, "🚪 [Foreign App Boundary] Navigated out of Settings into $packageName. Pressing Back to return...")
+                if (!packageName.contains("settingslens")) {
+                    service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
+                    service.waitForWindowSettle(BACK_SETTLE_MS)
+                }
+                return
+            }
+        }
+        val root = currentRoot ?: run {
             Log.w(TAG, "⚠️ [Window Unreadable] Cannot access root window at depth $depth. Skipping screen.")
             return
         }
 
-        // Verify we haven't inadvertently navigated outside of the Settings app
-        val packageName = root.packageName?.toString() ?: ""
-        if (!isSettingsPackage(packageName)) {
-            Log.w(TAG, "🚪 [Foreign App Boundary] Navigated out of Settings into $packageName. Pressing Back to return...")
-            service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
-            service.waitForWindowSettle(BACK_SETTLE_MS)
+        // If at depth > 0 and we unexpectedly find ourselves on the root homepage, unwind immediately
+        if (depth > 0 && isHomepageActive(root)) {
+            Log.w(TAG, "⚠️ [Unexpected Root Homepage at Depth $depth] Detected root Settings homepage while inside sub-screen. Unwinding stack.")
             return
         }
 
@@ -289,6 +339,7 @@ class CrawlEngine(
 
         for (item in items) {
             if (discoveredNodes.size >= MAX_NODES) break
+            if (depth == 0 && (item.label.contains("@") || item.label.lowercase().contains("account"))) continue
 
             val nodeId = generateNodeId()
             val intentAction = if (depth == 0) matchIntentAction(item.label) else null
@@ -320,14 +371,18 @@ class CrawlEngine(
         listener?.onNodesUpdated(discoveredNodes.toList())
 
         // Explore navigation branches (rows that lead to sub-screens)
-        // Check if this screen is a pure "action-list" where ALL items are actions
-        if (isActionListScreen(screenTitle)) {
+        if (isActionListScreen(screenTitle, depth, currentBreadcrumbs)) {
             Log.i(TAG, "📋 [Action-List Screen] '$screenTitle' contains action items (e.g. VPN profiles, Wi-Fi networks). " +
                     "Recording ${items.size} items without clicking any.")
             return
         }
 
-        val navigationCandidates = items.filter { it.isNavigationCandidate && !shouldSkipItem(it.label) }
+        val maxCandidates = if (depth == 0) 50 else 10
+        val navigationCandidates = items.filter {
+            it.isNavigationCandidate &&
+                    !shouldSkipItem(it.label) &&
+                    !shouldSkipSubBranch(screenTitle, it.label)
+        }.take(maxCandidates)
         Log.i(TAG, "🧭 [Branch Exploration] '$screenTitle' (depth $depth) has ${navigationCandidates.size} navigational sub-screens to explore.")
 
         for ((index, item) in navigationCandidates.withIndex()) {
@@ -338,136 +393,210 @@ class CrawlEngine(
 
             Log.d(TAG, "👉 [Branch ${index + 1}/${navigationCandidates.size} depth $depth] '${item.label}'")
 
-            // Re-find target node on the live screen
-            val liveNode = findNodeWithScrolling(item.selector)
-            if (liveNode == null) {
-                Log.w(TAG, "❓ [Control Unavailable] Could not acquire '${item.label}' on screen. Continuing to next.")
-                continue
-            }
+            try {
+                // Re-find target node on the live screen with resilient scrolling
+                var liveNode = findNodeWithScrolling(item.selector, depth)
+                var usedDirectIntent = false
 
-            // Snapshot current screen state BEFORE clicking
-            val preClickRoot = service.rootInActiveWindow ?: continue
-            val preClickTitle = NodeExtractor.extractScreenTitle(preClickRoot) ?: screenTitle
-            val preClickItems = NodeExtractor.extractScreenItems(preClickRoot).map { it.label }
-            val preClickSig = ScreenSignature.compute(preClickTitle, preClickItems)
-
-            val clicked = try {
-                liveNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-            } catch (e: Exception) {
-                Log.w(TAG, "⚠️ [Click Failed] Error clicking '${item.label}': ${e.localizedMessage}")
-                false
-            }
-
-            if (!clicked) {
-                // Try clicking the parent container instead
-                val clickableParent = findClickableAncestor(liveNode)
-                if (clickableParent != null) {
-                    try {
-                        clickableParent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                    } catch (e: Exception) {
-                        Log.w(TAG, "⚠️ [Click Refused] Target '${item.label}' and its ancestors refused click. Skipping.")
-                        continue
+                // At depth 0: If row is off-screen or cannot be acquired, fall back to known direct intent
+                if (liveNode == null && depth == 0) {
+                    val intentAction = matchIntentAction(item.label)
+                    if (intentAction != null) {
+                        Log.i(TAG, "🚀 [Direct Intent Launch] Target category '${item.label}' off-screen; launching $intentAction directly.")
+                        try {
+                            val intent = Intent(intentAction).apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                            service.startActivity(intent)
+                            service.waitForWindowSettle(SETTLE_TIMEOUT_MS)
+                            delay(POST_CLICK_MIN_WAIT_MS)
+                            usedDirectIntent = true
+                        } catch (e: Exception) {
+                            Log.w(TAG, "Direct intent $intentAction failed: ${e.localizedMessage}")
+                        }
                     }
-                } else {
-                    Log.w(TAG, "⚠️ [Click Refused] Target '${item.label}' refused ACTION_CLICK. Skipping.")
+                }
+
+                if (liveNode == null && !usedDirectIntent) {
+                    Log.w(TAG, "❓ [Control Unavailable] Could not acquire '${item.label}' on screen. Continuing to next.")
                     continue
                 }
-            }
 
-            // Fast transition check: poll every 40ms up to 600ms
-            val startTime = System.currentTimeMillis()
-            while (System.currentTimeMillis() - startTime < 600L) {
-                delay(40)
-                val currentRoot = service.rootInActiveWindow ?: continue
-                val currentPkg = currentRoot.packageName?.toString() ?: ""
-                val currentTitle = NodeExtractor.extractScreenTitle(currentRoot) ?: ""
-                if (!isSettingsPackage(currentPkg) || (currentTitle.isNotBlank() && !currentTitle.equals(preClickTitle, ignoreCase = true))) {
-                    break
+                // Snapshot current screen state BEFORE clicking
+                val preClickRoot = service.rootInActiveWindow ?: continue
+                val preClickTitle = NodeExtractor.extractScreenTitle(preClickRoot) ?: screenTitle
+                val preClickItems = NodeExtractor.extractScreenItems(preClickRoot).map { it.label }
+                val preClickSig = ScreenSignature.compute(preClickTitle, preClickItems)
+
+                if (!usedDirectIntent && liveNode != null) {
+                    val targetNode = if (liveNode.isClickable) liveNode else (findClickableAncestor(liveNode) ?: liveNode)
+                    val nodeBounds = Rect()
+                    liveNode.getBoundsInScreen(nodeBounds)
+                    val targetBounds = Rect()
+                    targetNode.getBoundsInScreen(targetBounds)
+
+                    val tapX = if (nodeBounds.centerX() in 50..1030) nodeBounds.centerX().toFloat()
+                    else if (targetBounds.centerX() in 50..1030) targetBounds.centerX().toFloat()
+                    else null
+                    val tapY = if (nodeBounds.centerY() in 100..2300) nodeBounds.centerY().toFloat()
+                    else if (targetBounds.centerY() in 100..2300) targetBounds.centerY().toFloat()
+                    else null
+
+                    var clicked = try {
+                        if (targetNode.isClickable) {
+                            targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                        } else false
+                    } catch (e: Exception) {
+                        Log.w(TAG, "⚠️ [Click Failed] Error clicking '${item.label}': ${e.localizedMessage}")
+                        false
+                    }
+
+                    if (!clicked && tapX != null && tapY != null) {
+                        Log.d(TAG, "👆 [Gesture Tap Fallback] Dispatching tap at ($tapX, $tapY) for '${item.label}'")
+                        clicked = service.clickAt(tapX, tapY)
+                    }
+
+                    service.waitForWindowSettle(250L)
+                    delay(POST_CLICK_MIN_WAIT_MS)
+
+                    // If screen hasn't transitioned, try gesture tap fallback
+                    val midRoot = service.rootInActiveWindow
+                    val midSig = if (midRoot != null) {
+                        val t = NodeExtractor.extractScreenTitle(midRoot) ?: ""
+                        val itms = NodeExtractor.extractScreenItems(midRoot).map { it.label }
+                        ScreenSignature.compute(t, itms)
+                    } else ""
+
+                    if (midSig == preClickSig && tapX != null && tapY != null) {
+                        Log.d(TAG, "👆 [Second Attempt: Tap] Screen did not transition with ACTION_CLICK, trying gesture tap for '${item.label}'")
+                        service.clickAt(tapX, tapY)
+                        service.waitForWindowSettle(250L)
+                        delay(POST_CLICK_MIN_WAIT_MS)
+                    }
+
+                    // If still hasn't transitioned and depth == 0, direct intent fallback
+                    if (depth == 0) {
+                        val checkRoot = service.rootInActiveWindow
+                        val checkSig = if (checkRoot != null) {
+                            val t = NodeExtractor.extractScreenTitle(checkRoot) ?: ""
+                            val itms = NodeExtractor.extractScreenItems(checkRoot).map { it.label }
+                            ScreenSignature.compute(t, itms)
+                        } else ""
+                        if (checkSig == preClickSig) {
+                            val intentAction = matchIntentAction(item.label)
+                            if (intentAction != null) {
+                                Log.i(TAG, "🚀 [Direct Intent After Click Failed] Launching $intentAction for '${item.label}'")
+                                try {
+                                    val intent = Intent(intentAction).apply {
+                                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    }
+                                    service.startActivity(intent)
+                                    service.waitForWindowSettle(SETTLE_TIMEOUT_MS)
+                                    delay(POST_CLICK_MIN_WAIT_MS)
+                                    usedDirectIntent = true
+                                } catch (e: Exception) {
+                                    Log.w(TAG, "Direct intent $intentAction failed: ${e.localizedMessage}")
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Inspect post-click state
+                val postClickRoot = service.rootInActiveWindow
+                if (postClickRoot == null) {
+                    continue
+                }
+
+                // Check if we navigated outside of Settings
+                val postClickPkg = postClickRoot.packageName?.toString() ?: ""
+                if (!isSettingsPackage(postClickPkg)) {
+                    Log.w(TAG, "🚪 [Left Settings Boundary] Item '${item.label}' opened external app ($postClickPkg). Recovering...")
+                    recoverToSettings(screenTitle)
+                    continue
+                }
+
+                val postClickTitle = NodeExtractor.extractScreenTitle(postClickRoot) ?: ""
+                val postClickItems = NodeExtractor.extractScreenItems(postClickRoot).map { it.label }
+                val postClickSig = ScreenSignature.compute(postClickTitle, postClickItems)
+
+                // Check content overlap to detect dismissed cards vs real sub-screens
+                val isSameScreen = (postClickSig == preClickSig)
+                if (isSameScreen && !usedDirectIntent) {
+                    Log.d(TAG, "ℹ️ [No Screen Transition] '${item.label}' did not open a distinct sub-screen. Skipping recursion.")
+                    continue
+                }
+
+                if (postClickSig in visitedSignatures) {
+                    Log.d(TAG, "🔁 [Existing Screen Returned] '${item.label}' opened already visited screen '$postClickTitle'. Skipping recursion.")
+                    if (postClickSig != preClickSig) {
+                        service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
+                        service.waitForWindowSettle(BACK_SETTLE_MS)
+                        delay(POST_CLICK_MIN_WAIT_MS)
+                        verifyReturnToParent(screenTitle, preClickSig, depth, postClickSig)
+                    }
+                    continue
+                }
+
+                // Screen transitioned: recurse down into the sub-screen (DFS)
+                val nextBreadcrumbs = currentBreadcrumbs + item.label
+                Log.i(TAG, "📂 [Entering Sub-screen] '${item.label}' -> '$postClickTitle' (depth ${depth + 1}, path: ${nextBreadcrumbs.joinToString(" > ")})")
+                crawlCurrentScreen(
+                    parentId = nodeId,
+                    depth = depth + 1,
+                    breadcrumbs = nextBreadcrumbs,
+                    parentLabel = item.label
+                )
+
+                // Return back to current parent screen
+                Log.d(TAG, "🔙 [Returning to Parent] Backing out from '$postClickTitle' to '$screenTitle'")
+                service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
+                service.waitForWindowSettle(BACK_SETTLE_MS)
+                delay(POST_CLICK_MIN_WAIT_MS)
+
+                // Verify safe return to original screen
+                verifyReturnToParent(screenTitle, preClickSig, depth, postClickSig)
+
+                // If device returned to root homepage while at depth > 0, stop and unwind DFS
+                if (depth > 0 && isHomepageActive(service.rootInActiveWindow)) {
+                    Log.w(TAG, "⚠️ [Accidental Return to Homepage] Device returned to Settings homepage while at depth $depth. Unwinding stack.")
+                    return
+                }
+            } catch (e: Exception) {
+                Log.w(TAG, "⚠️ [Branch Navigation Error] Error exploring '${item.label}': ${e.localizedMessage}")
+                recoverToSettings(screenTitle)
+                if (depth > 0 && isHomepageActive(service.rootInActiveWindow)) {
+                    Log.w(TAG, "⚠️ [Recovery returned to Homepage] Unwinding stack from depth $depth.")
+                    return
                 }
             }
-            delay(POST_CLICK_MIN_WAIT_MS)
-
-            // Inspect post-click state
-            val postClickRoot = service.rootInActiveWindow
-            if (postClickRoot == null) {
-                continue
-            }
-
-            // Check if we navigated outside of Settings
-            val postClickPkg = postClickRoot.packageName?.toString() ?: ""
-            if (!isSettingsPackage(postClickPkg)) {
-                Log.w(TAG, "🚪 [Left Settings Boundary] Item '${item.label}' opened external app ($postClickPkg). Recovering...")
-                recoverToSettings(screenTitle)
-                continue
-            }
-
-            val postClickTitle = NodeExtractor.extractScreenTitle(postClickRoot) ?: ""
-            val postClickItems = NodeExtractor.extractScreenItems(postClickRoot).map { it.label }
-            val postClickSig = ScreenSignature.compute(postClickTitle, postClickItems)
-
-            // Check content overlap to detect dismissed cards vs real sub-screens
-            val overlap = if (postClickItems.isNotEmpty()) {
-                postClickItems.count { it in preClickItems }.toDouble() / postClickItems.size
-            } else 0.0
-
-            val isSameScreen = (postClickSig == preClickSig) ||
-                    (postClickTitle.equals(preClickTitle, ignoreCase = true) && overlap > 0.65)
-
-            if (isSameScreen) {
-                Log.d(TAG, "ℹ️ [No Screen Transition] '${item.label}' did not open a distinct sub-screen (overlap=${(overlap * 100).toInt()}%). Skipping recursion.")
-                continue
-            }
-
-            // If we landed on a screen that was already crawled/visited (like when clicking an item
-            // closes a dialog or returns to an ancestor screen), DO NOT RECURSE and DO NOT PRESS BACK!
-            if (postClickSig in visitedSignatures) {
-                Log.d(TAG, "🔁 [Existing Screen Returned] '${item.label}' closed dialog or returned to '$postClickTitle'. Skipping recursion without pressing back.")
-                continue
-            }
-
-            // Screen transitioned: recurse down into the sub-screen (DFS)
-            // Pass the item label appended to breadcrumbs so full location is preserved!
-            val nextBreadcrumbs = currentBreadcrumbs + item.label
-            Log.i(TAG, "📂 [Entering Sub-screen] '${item.label}' -> '$postClickTitle' (depth ${depth + 1}, path: ${nextBreadcrumbs.joinToString(" > ")})")
-            crawlCurrentScreen(
-                parentId = nodeId,
-                depth = depth + 1,
-                breadcrumbs = nextBreadcrumbs,
-                parentLabel = item.label
-            )
-
-            // Return back to current parent screen
-            Log.d(TAG, "🔙 [Returning to Parent] Backing out from '$postClickTitle' to '$screenTitle'")
-            service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
-            service.waitForWindowSettle(BACK_SETTLE_MS)
-            delay(POST_CLICK_MIN_WAIT_MS)
-
-            // Verify safe return to original screen
-            verifyReturnToParent(screenTitle, postClickTitle)
         }
     }
 
     /**
      * Attempt to return to the Settings app after accidentally navigating to an external app.
-     * Tries up to 3 BACK presses, then re-launches Settings as a last resort.
+     * Tries up to 2 BACK presses (never inside our own app!), then re-launches Settings as fallback.
      */
     private suspend fun recoverToSettings(expectedScreenTitle: String) {
         Log.d(TAG, "🔄 [Recovery] Attempting to return to '$expectedScreenTitle' in Settings app...")
-        for (attempt in 1..3) {
+        for (attempt in 1..2) {
+            val root = service.rootInActiveWindow
+            val pkg = root?.packageName?.toString() ?: ""
+            if (isSettingsPackage(pkg)) {
+                Log.i(TAG, "✅ [Recovery Success] Returned to Settings.")
+                return
+            }
+            // NEVER press BACK if we landed in SettingsLens — that will finish MainActivity!
+            if (pkg.contains("settingslens")) {
+                break
+            }
             service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
             service.waitForWindowSettle(BACK_SETTLE_MS)
             delay(POST_CLICK_MIN_WAIT_MS)
-
-            val root = service.rootInActiveWindow ?: continue
-            val pkg = root.packageName?.toString() ?: ""
-            if (isSettingsPackage(pkg)) {
-                Log.i(TAG, "✅ [Recovery Success] Returned to Settings after $attempt BACK press(es).")
-                return
-            }
         }
 
-        // Last resort: re-launch the Settings app
-        Log.w(TAG, "⚠️ [Recovery Fallback] BACK presses didn't return to Settings. Force re-launching Settings app...")
+        // Re-launch the Settings app directly
+        Log.w(TAG, "⚠️ [Recovery Fallback] Re-launching Settings app directly...")
         try {
             val intent = Intent(Settings.ACTION_SETTINGS).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -483,23 +612,86 @@ class CrawlEngine(
     }
 
     /**
-     * Verify we returned to the parent screen. If outside Settings, recover to Settings.
+     * Verify we returned to the parent screen.
+     * Prevents over-shooting BACK presses so crawl never accidentally exits Settings.
      */
-    private suspend fun verifyReturnToParent(parentTitle: String, childTitle: String) {
+    private suspend fun verifyReturnToParent(
+        parentTitle: String,
+        parentSig: String,
+        depth: Int,
+        postClickSig: String? = null
+    ) {
         val returnRoot = service.rootInActiveWindow ?: return
         val returnPkg = returnRoot.packageName?.toString() ?: ""
 
-        // If we landed outside Settings (e.g. on our app or launcher), recover immediately
+        // 1. If we landed outside Settings, recover immediately
         if (!isSettingsPackage(returnPkg)) {
             Log.w(TAG, "⚠️ [Post-Back Recovery] Ended up outside Settings ($returnPkg). Recovering...")
             recoverToSettings(parentTitle)
+            return
         }
+
+        // 2. If at depth 0, ensure we are on SettingsHomepageActivity
+        if (depth == 0) {
+            if (!isHomepageActive(returnRoot)) {
+                Log.w(TAG, "⚠️ [Not At Root Homepage] Currently on sub-screen. Pressing BACK once...")
+                service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
+                service.waitForWindowSettle(BACK_SETTLE_MS)
+                delay(POST_CLICK_MIN_WAIT_MS)
+            }
+
+            val checkRoot = service.rootInActiveWindow
+            val checkPkg = checkRoot?.packageName?.toString() ?: ""
+            if (!isHomepageActive(checkRoot) || !isSettingsPackage(checkPkg)) {
+                Log.w(TAG, "🏠 [Reset to Root Homepage] Re-launching root Settings homepage directly...")
+                try {
+                    val intent = Intent(Settings.ACTION_SETTINGS).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    }
+                    service.startActivity(intent)
+                    service.waitForWindowSettle(SETTLE_TIMEOUT_MS)
+                    delay(POST_CLICK_MIN_WAIT_MS)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to reset Settings root: ${e.localizedMessage}")
+                }
+            }
+            return
+        }
+
+        // 3. For depth > 0:
+        // We already performed 1 GLOBAL_ACTION_BACK.
+        // We ONLY press BACK again if we are provably still stuck on the exact child screen.
+        if (postClickSig != null) {
+            val currentTitle = NodeExtractor.extractScreenTitle(returnRoot) ?: ""
+            val currentItems = NodeExtractor.extractScreenItems(returnRoot).map { it.label }
+            val currentSig = ScreenSignature.compute(currentTitle, currentItems)
+
+            if (currentSig == postClickSig) {
+                Log.w(TAG, "⚠️ [Still on Child Screen] Back press did not transition. Pressing BACK once more...")
+                service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
+                service.waitForWindowSettle(BACK_SETTLE_MS)
+                delay(POST_CLICK_MIN_WAIT_MS)
+            }
+        }
+    }
+
+    private fun isHomepageActive(root: AccessibilityNodeInfo?): Boolean {
+        if (root == null) return false
+        val pkg = root.packageName?.toString() ?: ""
+        if (!isSettingsPackage(pkg)) return false
+        val cls = root.className?.toString() ?: ""
+        if (cls.contains("SettingsHomepageActivity")) return true
+        val hasSearchBar = root.findAccessibilityNodeInfosByViewId("com.android.settings:id/search_bar").isNotEmpty()
+        if (hasSearchBar) return true
+        val hasHomepageContainer = root.findAccessibilityNodeInfosByViewId("com.android.settings:id/settings_homepage_container").isNotEmpty()
+        return hasHomepageContainer
     }
 
     /**
      * Fast collect of settings items on the current screen.
-     * At depth 0 (Home screen): scrolls up to 2 times to index main categories.
-     * At depth >= 1 (Sub-screens): scrolls at most 1 time.
+     * At depth 0 (Home screen): scrolls up to 3 times to index all main categories.
+     * At depth >= 1 (Sub-screens): scrolls up to 2 times.
      */
     private suspend fun collectAllScreenItems(depth: Int): List<NodeExtractor.ExtractedNode> {
         val collected = mutableListOf<NodeExtractor.ExtractedNode>()
@@ -518,16 +710,13 @@ class CrawlEngine(
 
         addCurrentItems()
 
-        val maxScrolls = if (depth == 0) 2 else 1
+        val maxScrolls = if (depth == 0) 3 else 2
         var scrolls = 0
         while (scrolls < maxScrolls) {
             val root = service.rootInActiveWindow ?: break
-            var scrolled = NodeExtractor.scrollForward(root)
-            if (!scrolled) {
-                scrolled = service.swipeUp()
-            }
+            val scrolled = service.swipeUp()
             if (!scrolled) break
-            delay(150)
+            delay(200)
             val beforeCount = collected.size
             addCurrentItems()
             if (collected.size == beforeCount) {
@@ -538,70 +727,95 @@ class CrawlEngine(
 
         // Fast rewind back to top
         if (scrolls > 0) {
-            for (i in 0 until scrolls) {
-                val root = service.rootInActiveWindow ?: break
-                var scrolled = NodeExtractor.scrollBackward(root)
-                if (!scrolled) {
-                    scrolled = service.swipeDown()
-                }
-                if (!scrolled) break
+            for (i in 0 until scrolls + 1) {
+                service.swipeDown()
                 delay(120)
             }
+            delay(100)
         }
 
         return collected
     }
 
     /**
-     * Locate a node on screen with minimal scrolling.
-     * Checks visible screen first, then scrolls forward up to 2 times.
+     * Locate a node on screen with robust scrolling.
+     * Checks visible screen first, then scrolls forward up to 4 times.
+     * If not found, rewinds to top and scans downwards.
      */
-    private suspend fun findNodeWithScrolling(selector: NodeSelector): AccessibilityNodeInfo? {
+    private suspend fun findNodeWithScrolling(selector: NodeSelector, depth: Int = 0): AccessibilityNodeInfo? {
         var root = service.rootInActiveWindow ?: return null
         var node = NodeExtractor.findClickableNode(root, selector)
-        if (node != null) return node
+        if (node != null) {
+            ensureNodeCentered(node)
+            return NodeExtractor.findClickableNode(service.rootInActiveWindow, selector) ?: node
+        }
 
-        // Try scrolling forward up to 2 times
+        // 1. Try scrolling forward up to 4 times
         var attempts = 0
-        while (attempts < 2) {
-            var scrolled = NodeExtractor.scrollForward(root)
-            if (!scrolled) {
-                scrolled = service.swipeUp()
-            }
+        while (attempts < 4) {
+            val scrolled = service.swipeUp()
             if (!scrolled) break
-            delay(150)
+            delay(200)
             root = service.rootInActiveWindow ?: break
             node = NodeExtractor.findClickableNode(root, selector)
-            if (node != null) return node
+            if (node != null) {
+                ensureNodeCentered(node)
+                return NodeExtractor.findClickableNode(service.rootInActiveWindow, selector) ?: node
+            }
             attempts++
         }
 
-        // If not found forward, try scrolling backward up to 2 times
-        attempts = 0
-        while (attempts < 2) {
-            var scrolled = NodeExtractor.scrollBackward(root)
-            if (!scrolled) {
-                scrolled = service.swipeDown()
-            }
-            if (!scrolled) break
+        // 2. If not found, rewind back to top and scan down
+        for (i in 0 until 4) {
+            service.swipeDown()
             delay(120)
+        }
+        delay(100)
+        root = service.rootInActiveWindow ?: return null
+        node = NodeExtractor.findClickableNode(root, selector)
+        if (node != null) {
+            ensureNodeCentered(node)
+            return NodeExtractor.findClickableNode(service.rootInActiveWindow, selector) ?: node
+        }
+
+        attempts = 0
+        while (attempts < 4) {
+            val scrolled = service.swipeUp()
+            if (!scrolled) break
+            delay(200)
             root = service.rootInActiveWindow ?: break
             node = NodeExtractor.findClickableNode(root, selector)
-            if (node != null) return node
+            if (node != null) {
+                ensureNodeCentered(node)
+                return NodeExtractor.findClickableNode(service.rootInActiveWindow, selector) ?: node
+            }
             attempts++
         }
 
         return null
     }
 
-    /**
-     * Walk up ancestor chain to locate the nearest clickable container.
-     */
+    private suspend fun ensureNodeCentered(node: AccessibilityNodeInfo) {
+        val bounds = Rect()
+        node.getBoundsInScreen(bounds)
+        if (bounds.bottom > 2150) {
+            service.swipeUp()
+            delay(200)
+        } else if (bounds.top < 200 && bounds.top > 0) {
+            service.swipeDown()
+            delay(200)
+        }
+    }
+
     private fun findClickableAncestor(node: AccessibilityNodeInfo): AccessibilityNodeInfo? {
         var parent = node.parent
         var hops = 0
-        while (parent != null && hops < 5) {
-            if (parent.isClickable) return parent
+        while (parent != null && hops < 4) {
+            val b = Rect()
+            parent.getBoundsInScreen(b)
+            if (parent.isClickable && b.height() in 40..450 && b.width() > 100) {
+                return parent
+            }
             parent = parent.parent
             hops++
         }
@@ -609,14 +823,12 @@ class CrawlEngine(
     }
 
     private fun isSettingsPackage(packageName: String): Boolean {
-        if (packageName == service.packageName || packageName.contains("settingslens")) {
-            return false
-        }
-        return packageName.contains("com.android.settings") ||
+        if (packageName.contains("settingslens") || packageName == service.packageName) return false
+        return packageName.contains("android.settings") ||
                 packageName.contains("settings.intelligence") ||
                 packageName.contains("vivo.settings") ||
                 packageName.contains("com.samsung.android.settings") ||
-                (packageName.contains("settings") && !packageName.contains("settingslens"))
+                packageName.contains("settings")
     }
 
     private fun shouldSkipScreen(title: String?): Boolean {
@@ -631,10 +843,41 @@ class CrawlEngine(
      * Detects screens where list items are action triggers (connect, launch, pair)
      * rather than navigation to deeper settings sub-screens.
      */
-    private fun isActionListScreen(title: String?): Boolean {
+    private fun isActionListScreen(title: String?, depth: Int = 0, breadcrumbs: List<String> = emptyList()): Boolean {
         if (title == null) return false
         val lower = title.lowercase().trim()
-        return ACTION_LIST_SCREEN_TITLES.any { lower.contains(it) }
+        if (ACTION_LIST_SCREEN_TITLES.any { lower.contains(it) }) return true
+        if (depth >= 1 && (lower.contains("apps") || lower.contains("app list"))) return true
+        if (depth >= 2 && (lower.contains("ringtone") || lower.contains("sound") || lower.contains("tone"))) return true
+        if (breadcrumbs.any { it.contains("storage", ignoreCase = true) } && lower.contains("apps")) return true
+        return false
+    }
+
+    /**
+     * Skip clicking individual network SSIDs on Wi-Fi screen or paired devices on Bluetooth screen
+     * to avoid triggering password dialogs or connection attempts.
+     */
+    private fun shouldSkipSubBranch(screenTitle: String, itemLabel: String): Boolean {
+        val lowerScreen = screenTitle.lowercase()
+        val lowerItem = itemLabel.lowercase()
+
+        // On Wi-Fi screen, do not click individual network SSIDs
+        if (lowerScreen.contains("wi-fi") || lowerScreen.contains("wifi") || lowerScreen.contains("wlan")) {
+            val allowedWifiSubmenus = listOf("preference", "saved", "direct", "certificate", "manage", "advanced", "data usage", "network")
+            if (!allowedWifiSubmenus.any { lowerItem.contains(it) }) {
+                return true // Skip clicking SSIDs
+            }
+        }
+
+        // On Bluetooth screen, do not click individual paired/available devices
+        if (lowerScreen.contains("bluetooth")) {
+            val allowedBtSubmenus = listOf("pair", "device name", "file", "advanced", "preference", "received")
+            if (!allowedBtSubmenus.any { lowerItem.contains(it) }) {
+                return true // Skip clicking device names
+            }
+        }
+
+        return false
     }
 
     private fun shouldSkipItem(label: String): Boolean {
@@ -648,7 +891,7 @@ class CrawlEngine(
     private fun matchIntentAction(label: String): String? {
         val lower = label.lowercase().trim()
         return KNOWN_INTENT_ACTIONS[lower]
-            ?: KNOWN_INTENT_ACTIONS.entries.find { lower.contains(it.key) }?.value
+            ?: KNOWN_INTENT_ACTIONS.entries.find { lower.contains(it.key) || it.key.contains(lower) }?.value
     }
 
     private fun generateNodeId(): String {

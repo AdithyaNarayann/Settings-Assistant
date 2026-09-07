@@ -1,8 +1,16 @@
 import pytest
 from fastapi.testclient import TestClient
 from main import app
+from resolver import parse_llm_json
 
 client = TestClient(app)
+
+
+def test_parse_llm_json_handles_truncated_response():
+    assert parse_llm_json('{"type": "resolved", "question": "') is None
+    assert parse_llm_json('```json\n{"type": "clarification"}\n```') == {
+        "type": "clarification"
+    }
 
 SAMPLE_GRAPH = {
     "deviceManufacturer": "Google",

@@ -1,0 +1,34 @@
+{
+  "graphId": "a4c9bce2",
+  "deviceManufacturer": "Vivo",
+  "deviceModel": "V2154",
+  "androidVersion": 34,
+  "nodes": [
+    {
+      "id": "n_wifi",
+      "label": "Wi‑Fi",
+      "subtitle": "Network & internet ‑ – — അ",
+      "screenSignature": "sig_root",
+      "screenTitle": null,
+      "parentId": null,
+      "selector": {
+        "resourceId": null,
+        "text": "Wi‑Fi",
+        "contentDescription": null
+      },
+      "depth": 0,
+      "directIntentAction": null,
+      "className": null,
+      "isClickable": true,
+      "childIds": [],
+      "pathBreadcrumbs": [
+        "Network & internet",
+        "Wi‑Fi"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-06T06:30:00Z",
+  "screenSignatures": [
+    "sig_root"
+  ]
+}

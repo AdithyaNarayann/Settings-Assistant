@@ -14,11 +14,37 @@ from prompts import (
     CLARIFICATION_FOLLOWUP_TEMPLATE, format_candidates
 )
 
+from dotenv import load_dotenv
+load_dotenv()
+
 logger = logging.getLogger(__name__)
 
-# Set to True to use LLM, False for keyword-only stub
-USE_LLM = bool(os.environ.get("GEMINI_API_KEY"))
+# Check API key dynamically
+def is_llm_enabled() -> bool:
+    return bool(os.environ.get("GEMINI_API_KEY"))
+
 CONFIDENCE_THRESHOLD = 0.7
+
+
+def parse_llm_json(response_text: str) -> Optional[dict]:
+    """Extract a complete JSON object from an LLM response."""
+    response_text = response_text.strip()
+    fenced_match = re.search(r"```(?:json)?\s*(.*?)\s*```", response_text, re.DOTALL | re.IGNORECASE)
+    if fenced_match:
+        response_text = fenced_match.group(1).strip()
+
+    try:
+        parsed = json.loads(response_text)
+    except json.JSONDecodeError:
+        object_start = response_text.find("{")
+        if object_start < 0:
+            return None
+        try:
+            parsed, _ = json.JSONDecoder().raw_decode(response_text[object_start:])
+        except json.JSONDecodeError:
+            return None
+
+    return parsed if isinstance(parsed, dict) else None
 
 
 MANGLISH_SYNONYMS = {
@@ -221,30 +247,39 @@ async def resolve_with_llm(
         )
     
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        response = model.generate_content(
-            [
-                {"role": "user", "parts": [SYSTEM_PROMPT]},
-                {"role": "model", "parts": ["Understood. I will analyze the user's query and match it to the most relevant setting, returning structured JSON as specified."]},
-                {"role": "user", "parts": [user_prompt]}
-            ],
-            generation_config=genai.GenerationConfig(
-                temperature=0.1,
-                max_output_tokens=1024,
-                response_mime_type="application/json"
-            )
-        )
+        # Use gemini-3.6-flash supported for this API key with fallback to gemini-flash-latest
+        response = None
+        for model_name in ["gemini-3.6-flash", "gemini-flash-latest"]:
+            try:
+                model = genai.GenerativeModel(model_name)
+                response = model.generate_content(
+                    [
+                        {"role": "user", "parts": [SYSTEM_PROMPT]},
+                        {"role": "model", "parts": ["Understood. I will analyze the user's query and match it to the most relevant setting, returning structured JSON as specified."]},
+                        {"role": "user", "parts": [user_prompt]}
+                    ],
+                    generation_config=genai.GenerationConfig(
+                        temperature=0.1,
+                        max_output_tokens=256,
+                        response_mime_type="application/json"
+                    )
+                )
+                if response:
+                    break
+            except Exception as model_err:
+                logger.warning(f"Model {model_name} failed: {model_err}, trying fallback...")
+
+        if response is None:
+            raise RuntimeError("All Gemini model variants failed")
         
         # Parse the LLM response
         response_text = response.text.strip()
         logger.info(f"LLM response: {response_text}")
         
-        # Extract JSON from response (handle markdown code blocks)
-        json_match = re.search(r'```json\s*(.*?)\s*```', response_text, re.DOTALL)
-        if json_match:
-            response_text = json_match.group(1)
-        
-        llm_result = json.loads(response_text)
+        llm_result = parse_llm_json(response_text)
+        if llm_result is None:
+            logger.warning("LLM returned incomplete or invalid JSON; falling back to keyword resolver")
+            return resolve_stub(graph, transcript)
         
         if llm_result.get("type") == "resolved":
             target_id = llm_result.get("target_node_id")
@@ -270,31 +305,23 @@ async def resolve_with_llm(
                     confidence=confidence
                 )
             else:
-                # Below threshold — ask for clarification
+                # Confidence below threshold — ask for clarification
                 options = [n.label for n in candidates[:3]]
-                question = f"I'm not sure. Did you mean: {', '.join(options)}?"
+                question = f"Did you mean: {', '.join(options)}?"
                 return ResolveResponse(
                     type="clarification",
                     question=question,
                     confidence=confidence,
-                    conversation_state=json.dumps({
-                        "question": question,
-                        "candidate_ids": [n.id for n in candidates[:5]]
-                    })
+                    conversation_state=json.dumps({"question": question, "target_id": target_node.id})
                 )
         
         elif llm_result.get("type") == "clarification":
-            question = llm_result.get("question", "Could you be more specific?")
-            candidate_ids = llm_result.get("candidate_node_ids", [])
-            
+            question = llm_result.get("question", "Could you clarify what you're looking for?")
             return ResolveResponse(
                 type="clarification",
                 question=question,
-                confidence=0.0,
-                conversation_state=json.dumps({
-                    "question": question,
-                    "candidate_ids": candidate_ids
-                })
+                confidence=float(llm_result.get("confidence", 0.3)),
+                conversation_state=json.dumps({"question": question})
             )
         
         else:
@@ -315,8 +342,7 @@ async def resolve(
     conversation_state: Optional[str] = None
 ) -> ResolveResponse:
     """Main resolve entry point."""
-    if USE_LLM:
+    if is_llm_enabled():
         return await resolve_with_llm(graph, transcript, conversation_state)
     else:
         return resolve_stub(graph, transcript)
-
